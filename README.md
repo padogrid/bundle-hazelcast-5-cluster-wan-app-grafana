@@ -157,6 +157,23 @@ cd_app perf_test/bin_sh
 ./ingest_all -cluster wan2
 ```
 
+For testing the included WAN plugin, run one of the following commands. These commands run indefinitely so that you can monitor the progress from Grafana. 
+
+✏️  *The WAN plugin dashboard called Custom is in the **WAN Discovery** folder.*
+
+```bash
+cd_app perf_test/bin_sh
+
+# wan1
+./test_group -cluster wan1 -run -prop ../etc/group-mkp.properties
+./test_group -cluster wan1 -run -prop ../etc/group-mkq.properties
+
+# wan2
+./test_group -cluster wan2 -run -prop ../etc/group-mkp.properties
+./test_group -cluster wan2 -run -prop ../etc/group-mkq.properties
+```
+
+
 The `perf_test` app supports only the following data structures.
 
 - Map
