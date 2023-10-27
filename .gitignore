@@ -59,4 +59,5 @@ pom.xml0
 build
 playground
 tmp
+cp-data
 !plugins/

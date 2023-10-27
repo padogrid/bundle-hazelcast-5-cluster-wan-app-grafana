@@ -1402,8 +1402,8 @@
         {
           "current": {
             "selected": true,
-            "text": "myhz",
-            "value": "myhz"
+            "text": "myhz1",
+            "value": "myhz1"
           },
           "hide": 0,
           "includeAll": false,
@@ -1412,8 +1412,13 @@
           "options": [
             {
               "selected": true,
-              "text": "myhz",
-              "value": "myhz"
+              "text": "myhz1",
+              "value": "myhz1"
+            },
+            {
+              "selected": false,
+              "text": "myhz2",
+              "value": "myhz2"
             },
             {
               "selected": false,
@@ -1426,7 +1431,7 @@
               "value": "wan2"
             }
           ],
-          "query": "myhz,wan1,wan2",
+          "query": "myhz1,myhz2,wan1,wan2",
           "queryValue": "",
           "skipUrlSync": false,
           "type": "custom",

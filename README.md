@@ -42,10 +42,7 @@ Hazelcast provides a wealth of monitoring metrics that can be scraped by Prometh
 ```console
 apps
 ├── grafana
-├── perf_test_myhz1
-├── perf_test_myhz2
-├── perf_test_wan1
-└── perf_test_wan2
+└── perf_test
 
 clusters
 ├── myhz1
@@ -85,23 +82,45 @@ The following ports are used by this demo.
 
 ### 1. Start all clusters in the workspace.
 
-```bash
-start_workspace
-```
+There are two (2) groups of clusters as follows.
 
-There are four (4) clusters: `myhz1`, `myhz2`, `wan1`, and `wan2`.
-
-The `myhz1` and `myhz2` clusters are not configured with WAN. If you are running Hazelcast OSS, then you are limited to these two cluster for this demo.
+| Group  | Clusters         | Hazelcast           |
+| ------ | ---------------- | ------------------- |
+| `myhz` | `myhz1`, `myhz2` | OSS or Enterprise   |
+| `wan ` | `wan1`, `wan2`   | Enterprise required |
 
 The `wan1` and `wan2` clusters are configured with bi-directional WAN replication. These clusters require Hazelcast Enterprise.
 
-### 2. Open Grafana in the browser.
+```bash
+# Start group 'myhz'
+start_group -group myhz
+
+# Start group 'wan' - these clusters required Hazelcast Enterprise
+start_group -group wan
+```
+
+### 2. Start Prometheus and Grafana
+
+```bash
+cd_app grafana/bin_sh
+./start_prometheus
+./start_grafana
+```
+
+### 3. Import dashboards
+
+```bash
+cd_app grafana/bin_sh
+./import_dashboard -all
+```
+
+### 4. Open Grafana in the browser.
 
 Grafana URL: <http://localhost:3000>
 
 From the browser, add the Prometheus datasource if it does not exist.
 
-- Select *Connections/Add new connection* from the left pane.
+- Select *Connections/Add new connection* from the left pull-out menu.
 - Search and add `Promtheus` from the *Add new connection* page.
 - Enter the following
 
@@ -110,13 +129,51 @@ From the browser, add the Prometheus datasource if it does not exist.
 
 Open the **00Main** dashboard.
 
-- Select *Dashboards* from the left pane.
+- Select *Dashboards* from the left pull-out menu.
 - Select *Hazelcast*.
 - Select **00Main**.
 
-The **00Main** dashboard is the main (home) dashboard that provides a menu of all available dashaboards.
+The **00Main** dashboard is the main (home) dashboard that provides a menu of all available dashaboards. See [Navigating Hazelcast Dashboards](#navigating-hazelcast-dashboards) for dashboard instructions.
 
-## Using Hazelcast Dashboards
+### 5. Ingest Data
+
+There are four (4) `perf_test` apps included in the bundle. Each app targets their respective cluster for ingesting data.
+
+To ingest data into data structures, run the `ingest_all` script from the `perf_test/bin_sh` directory as follows.
+
+```bash
+cd_app perf_test/bin_sh
+
+# myhz1
+./ingest_all -cluster myhz1
+
+# myhz2
+./ingest_all -cluster myhz2
+
+# wan1
+./ingest_all -cluster wan1
+
+# wan2
+./ingest_all -cluster wan2
+```
+
+The `perf_test` app supports only the following data structures.
+
+- Map
+- Queue
+- ReplicatedMap
+- Reliable Topic
+- Topic
+
+The following unsupported data structures can be ingested using the [Hazelcast Playground](https://github.com/padogrid/bundle-hazelcast-5-playground-python) bundle.
+
+- MultiMap
+- List
+- Set
+- PN Counter
+- Fake ID Generator
+
+## Navigating Hazelcast Dashboards
 
 The main dashboard is organized similar to the Management Center.
 
@@ -124,34 +181,11 @@ The left pane contains menu items for cluster members, WAN, storage, stream proc
 
 The toolbar contains the menu for switching cluster, opening the system dashboard, and directly selecting any of the Hazelcast dashboards.
 
-Each dashboard's toolbar caontains the *Main* menu item for quickly returning to the main dashboard.
+Each dashboard's toolbar cantains the *Main* menu item for quickly returning to the main dashboard.
 
 The **System** dashboard tabulates member status and provides two rows of panels: *Aggreates* and *Per Member*. The Aggregates row contains panels for monitoring aggreated metrics. The Per Member row contains panels for monitoring individual members.
 
 The **Member** dashboard provides two (2) rows of panels: *Resources* and *Data Structures*. The Resources row contains panels for monitoring the selected member's system resources. The Data Structures row contains panels for monitoring the data strcutures that belong to the selected member. You can switch to another member using the *Member* pulldown menu in the toolbar.
-
-### 4. Ingest Data
-
-There are four (4) `perf_test` apps included in the bundle. Each app targets their respective cluster for ingesting data.
-
-To ingest data into all data structures, run the `ingest_all` script from each app's `bin_sh` directory as follows.
-
-```bash
-# myhz1
-cd_app perf_test_myhz1/bin_sh
-./ingest_all
-
-# myhz2
-cd_app perf_test_myhz2/bin_sh
-./ingest_all
-
-# wan1
-cd_app perf_test_wan1/bin_sh
-./ingest_all
-
-# wan2
-cd_app perf_test_wan2/bin_sh
-```
 
 ## Teardown
 

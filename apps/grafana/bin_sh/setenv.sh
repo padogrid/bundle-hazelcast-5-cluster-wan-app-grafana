@@ -87,7 +87,7 @@ DEFAULT_FOLDER="padogrid-perf_test"
 #
 #PROMETHEUS_PROTOCOL="http"
 #PROMETHEUS_HOST="localhost"
-PROMETHEUS_PORT="9091"
+#PROMETHEUS_PORT="9090"
 
 #
 # Enter the directory to which the `export_folder` command exports dashboards.
