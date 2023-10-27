@@ -5,74 +5,66 @@
 <!-- Platforms -->
 [![Host OS](https://github.com/padogrid/padogrid/wiki/images/padogrid-host-os.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Host-OS) [![VM](https://github.com/padogrid/padogrid/wiki/images/padogrid-vm.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-VM) [![Docker](https://github.com/padogrid/padogrid/wiki/images/padogrid-docker.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Docker) [![Kubernetes](https://github.com/padogrid/padogrid/wiki/images/padogrid-kubernetes.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Kubernetes)
 
-[Update the above platform list with the supported platforms by this bundle.]
+# Hazelcast Multi-Cluster Demo
 
-# Hazelcast Bundle Template
-
-[Enter your header description here. Try to limit to two (2) lines. Delete this line.]
+This bundle demonstrates the Grafana capability to monitor three (3) Hazelcast clusters.
 
 ## Installing Bundle
 
-[Enter your bundle name below and delete this line.]
-
 ```bash
-install_bundle -download bundle-hazelcast-...
+install_bundle -download -workspace bundle-hazelcast-5-cluster-wan-app-granfana
 ```
 
 ## Use Case
 
-[Enter detailed use case descriptions including one or more diagrams. Delete this line.]
+Hazelcast provides a wealth of monitoring metrics that can be scraped by Prometheus to create Grafana dashboards that can rival the Hazelcast Management Center. In this bundle, we use PadoGrid's own dashboards to demonstrate the Grafana capabilities in a multi-cluster environment.
 
 ![Bundle Template Diagram](/images/bundle-template.jpg)
 
 ## Required Software
 
-- name1 version
-- name2 version
+- PadoGrid 0.9.30+
+- Hazelcast Enterprise 5.x
 
 ## Required Hardware
 
-- Memory
-- CPUs
-- Number of Machines
-- Etc.
+- Memory: 8 GB
+- CPUs: 4
 
 ## Bundle Contents
 
-[Enter a directory tree view. Try to keep it short by showing only the core nested items. Delete this line.]
-
 ```console
-bundle-template/
-├── bin_sh
-│   ├── build_app
-│   ├── cleanup
-│   ├── setenv.sh
-│   ├── start_hazelcast
-│   ├── start_padogrid
-│   ├── stop_hazelcast
-│   └── stop_padogrid
-├── etc
-│   ├── hazelcast.xml
-│   └── hazelcast-client.xml
-└── padogrid
-    └── etc
-        └── hazelcast-client.xml
+apps
+├── grafana
+├── perf_test_myhz
+├── perf_test_wan1
+└── perf_test_wan2
+
+clusters
+├── myhz
+├── wan1
+└── wan2
+
+groups
+└── wan
 ```
 
-## 1. [Enter instruction step. Enumerate steps if possible.]
+## Startup Sequence
 
-## 2. [Enter instruction step. Enumerate steps if possible.]
 
-## 3. [Enter instruction step. Enumerate steps if possible.]
 
 ## Teardown
 
-[Always include teardown steps. Delete this line.]
+```bash
+stop_workspace -all
+```
 
 ## References
 
-1. [Enter the name of a reference article, book, web link, etc.]
-2. [Enter the name of a reference article, book, web link, etc.]
+1. *Hazelcast Grafana App*, Padogrid, <https://github.com/padogrid/padogrid/wiki/Hazelcast-Grafana-App>
+1. *Hazelcast Kubernetes Helm Charts*, PadoGrid Bundles, <https://github.com/padogrid/bundle-hazelcast-3n4n5-k8s-kubectl_helm>
+1. *Grafana*, GranfnaLabs, <https://grafana.com/>
+1. *Prometheus*, Prometheus, <https://prometheus.io/>
 
 ---
 

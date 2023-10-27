@@ -5,103 +5,166 @@
 <!-- Platforms -->
 [![Host OS](https://github.com/padogrid/padogrid/wiki/images/padogrid-host-os.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Host-OS) [![VM](https://github.com/padogrid/padogrid/wiki/images/padogrid-vm.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-VM) [![Docker](https://github.com/padogrid/padogrid/wiki/images/padogrid-docker.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Docker) [![Kubernetes](https://github.com/padogrid/padogrid/wiki/images/padogrid-kubernetes.drawio.svg)](https://github.com/padogrid/padogrid/wiki/Platform-Kubernetes)
 
-# Hazelcast Bundle Template
+# Hazelcast Multi-Cluster Demo
 
-This bundle serves as a template for creating a new Hazelcast onlne bundle.
+This bundle demonstrates Grafana capabilities of monitoring four (4) Hazelcast clusters.
 
 ## Installing Bundle
 
 ```bash
-install_bundle -download bundle-hazelcast-template
+install_bundle -download -workspace bundle-hazelcast-5-cluster-wan-app-granfana
 ```
 
 ## Use Case
 
-If you are creating a new online bundle, then you can use this template to create your bundle repo. It includes all the required files with marked annotations for you to quickly start developing a new online bundle. Please follow the steps shown below.
+Hazelcast provides a wealth of monitoring metrics that can be scraped by Prometheus to create Grafana dashboards that can rival the Hazelcast Management Center. In this bundle, we use PadoGrid's own Grafana dashboards to demonstrate the ease of monitoring multi-clusters.
 
-## 1. Create Repo
+![Bundle Template Diagram](/images/bundle-template.jpg)
 
-Select **Use this template** button in the upper right coner to create your repo. Make sure to follow the bundle naming conventions described in the following link.
+## Required Software
 
-## 2. Checkout Repo in Workspace
+- PadoGrid 0.9.30+
+- Hazelcast
+  - Full Demo: Enterprise 5.x
+  - Partial Demo: OSS 5.x (WAN not demonstrable)
+- Grafana 10.x
+- Prometheus 2.x
 
-```bash
-# PadoGrid 0.9.7+
-install_bundle -checkout <bundle-repo-name>
+## Required Hardware
 
-# PadoGrid 0.9.6 and older
-install_bundle -download -workspace <bundle-repo-name>
+- Memory per cluster: 3 GB
+  - There are a total of four (4) clusters. You can run any number of clusters.
+  - 4 clusters: 12 GB
+- CPUs: 4
 
-# Switch into the checked out bundle workspace
-switch_workspace <bundle-repo-name>
-```
-
-## 3. Update Files
-
-Update the files came with the template repo.
-
-- `pom.xml`
-- `assembly-descriptor.xml`
-- `.gitignore`
-- `README_HEADER.md` (Optional)
-- `README.md` (This file)
-- `README.TEMPLATE` (Remove it when done. See instructions below.)
-- `required_products.txt`
-
-### 3.1. pom.xml
-
-The `pom.xml` file contains instructions annocated with **@template**. Search **@template** and add your bundle specifics there.
-
-### 3.2 assembly-descriptor.xml
-
-This file creates a tarball that will be deployed when the user executes the `install_bundle -download` command. Search **@template** and add your bundle specifics there.
-
-### 3.3 .gitignore
-
-The `.gitignore` file lists workspace specific files to be excluded from getting checked in. Edit `.gitignore` and add new exludes or remove existing excludes.
-
-```bash
-vi .gitignore
-```
-
-Make sure to comment out your workspace directories (components) so that they can be included by `git`.
+## Bundle Contents
 
 ```console
-...
-# PadoGrid workspace directories
 apps
+├── grafana
+├── perf_test_myhz1
+├── perf_test_myhz2
+├── perf_test_wan1
+└── perf_test_wan2
+
 clusters
-docker
-k8s
-pods
-...
+├── myhz1
+├── myhz2
+├── wan1
+└── wan2
+
+groups
+├── myhz
+└── wan
 ```
 
-## 3.4. README_HEADER.md
+## Installation Steps
 
-Enter a short description of your bundle in the `README_HEADER.md` file. This file content is displayed when you execute the `show_bundle -header` command. **Note that this file is optional.** If it does not exist, then the first paragraph of the `README.md` file is used instead.
-
-## 3.5. READEME.md (this file)
-
-Replace `README.md` with the README_TEMPLATE.md file. Make sure to remove `README_TEMPLATE.md` after you have replaced `READEME.md` with it.
+Install Prometheus and Grafana. Make sure you have installed PadoGrid 0.9.30 or a later version.
 
 ```bash
-cp README_TEMPLATE.md README.md
-git rm README_TEMPLATE.md
+install_padogrid -product prometheus
+install_padogrid -product grafana
+update_products -product prometheus
+update_products -product grafana
 ```
 
-Update the `READEME.md` file by following the instructions in that file.
+## Used Ports
 
-## 3.6. required_products.txt
+The following ports are used by this demo.
 
-The `required_products.txt` file must include a list of required products and their versions. Its format is described in the following link.
+- Grafana: 3000
+- Prometheus: 9090
+- Hazelcast
+  - `myhz1`: [5601-5620], [8191-8200], [9301-9320], [12101-12120]
+  - `myhz2`: [5701-5720], [8291-8300], [9401-9420], [12201-12220]
+  - `wan1`: [5801-5820], [8391-8400], [9501-9520], [12301-12320]
+  - `wan2`: [5901-5920], [8491-8500], [9601-9620], [12401-12420]
 
-[Relaxed Bundle Naming Conventions](https://github.com/padogrid/padogrid/wiki/User-Bundle-Repos#relaxed-conventions)
+## Startup Sequence
 
-## 4. Develop and Test Bundle
+### 1. Start all clusters in the workspace.
 
-You can freely make changes and test the bundle in the workspace. When you are ready to check in, you simply commit the changes using the `git commit` command. For new files, you will need to select only the ones that you want to check in using the `git status -u` and `git diff` commands. For those files that you do not want to check in, you can list them in the `.gitignore` file so that they do not get checked in accidentally.
+```bash
+start_workspace
+```
 
+There are four (4) clusters: `myhz1`, `myhz2`, `wan1`, and `wan2`.
+
+The `myhz1` and `myhz2` clusters are not configured with WAN. If you are running Hazelcast OSS, then you are limited to these two cluster for this demo.
+
+The `wan1` and `wan2` clusters are configured with bi-directional WAN replication. These clusters require Hazelcast Enterprise.
+
+### 2. Open Grafana in the browser.
+
+Grafana URL: <http://localhost:3000>
+
+From the browser, add the Prometheus datasource if it does not exist.
+
+- Select *Connections/Add new connection* from the left pane.
+- Search and add `Promtheus` from the *Add new connection* page.
+- Enter the following
+
+  Prometheus server URL: <http://localhost:9090>
+- Select *Save & test* at the bottom
+
+Open the **00Main** dashboard.
+
+- Select *Dashboards* from the left pane.
+- Select *Hazelcast*.
+- Select **00Main**.
+
+The **00Main** dashboard is the main (home) dashboard that provides a menu of all available dashaboards.
+
+## Using Hazelcast Dashboards
+
+The main dashboard is organized similar to the Management Center.
+
+The left pane contains menu items for cluster members, WAN, storage, stream processing, computing, messaging, and CP subsystem. You can drill down to individual menu items by clicking on them.
+
+The toolbar contains the menu for switching cluster, opening the system dashboard, and directly selecting any of the Hazelcast dashboards.
+
+Each dashboard's toolbar caontains the *Main* menu item for quickly returning to the main dashboard.
+
+The **System** dashboard tabulates member status and provides two rows of panels: *Aggreates* and *Per Member*. The Aggregates row contains panels for monitoring aggreated metrics. The Per Member row contains panels for monitoring individual members.
+
+The **Member** dashboard provides two (2) rows of panels: *Resources* and *Data Structures*. The Resources row contains panels for monitoring the selected member's system resources. The Data Structures row contains panels for monitoring the data strcutures that belong to the selected member. You can switch to another member using the *Member* pulldown menu in the toolbar.
+
+### 4. Ingest Data
+
+There are four (4) `perf_test` apps included in the bundle. Each app targets their respective cluster for ingesting data.
+
+To ingest data into all data structures, run the `ingest_all` script from each app's `bin_sh` directory as follows.
+
+```bash
+# myhz1
+cd_app perf_test_myhz1/bin_sh
+./ingest_all
+
+# myhz2
+cd_app perf_test_myhz2/bin_sh
+./ingest_all
+
+# wan1
+cd_app perf_test_wan1/bin_sh
+./ingest_all
+
+# wan2
+cd_app perf_test_wan2/bin_sh
+```
+
+## Teardown
+
+```bash
+stop_workspace -all
+```
+
+## References
+
+1. *Hazelcast Grafana App*, Padogrid, <https://github.com/padogrid/padogrid/wiki/Hazelcast-Grafana-App>
+1. *Hazelcast Kubernetes Helm Charts*, PadoGrid Bundles, <https://github.com/padogrid/bundle-hazelcast-3n4n5-k8s-kubectl_helm>
+1. *Grafana*, GranfnaLabs, <https://grafana.com/>
+1. *Prometheus*, Prometheus, <https://prometheus.io/>
 
 ---
 
