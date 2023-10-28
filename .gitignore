@@ -60,4 +60,6 @@ build
 playground
 tmp
 cp-data
+apps/grafana/export
+apps/grafana/templates
 !plugins/

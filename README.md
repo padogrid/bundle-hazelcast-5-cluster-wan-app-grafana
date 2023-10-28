@@ -61,7 +61,7 @@ Install Prometheus and Grafana. Make sure you have installed PadoGrid 0.9.30 or 
 
 ```bash
 install_padogrid -product prometheus
-install_padogrid -product grafana
+install_padogrid -product grafana-enterprise
 update_products -product prometheus
 update_products -product grafana
 ```
@@ -111,7 +111,7 @@ cd_app grafana/bin_sh
 
 ```bash
 cd_app grafana/bin_sh
-./import_dashboard -all
+./import_folder -all
 ```
 
 ### 4. Open Grafana in the browser.
@@ -207,6 +207,12 @@ The **Member** dashboard provides two (2) rows of panels: *Resources* and *Data 
 ## Teardown
 
 ```bash
+# Stop Prometheus and Grafana
+cd_app grafana
+./stop_prometheus
+./stop_granfa
+
+# Stop all clusters in the workspace
 stop_workspace -all
 ```
 
