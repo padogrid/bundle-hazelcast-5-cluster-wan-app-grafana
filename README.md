@@ -17,9 +17,9 @@ install_bundle -init -download -workspace bundle-hazelcast-5-cluster-wan-app-gra
 
 ## Use Case
 
-Hazelcast provides a wealth of monitoring metrics that can be scraped by Prometheus to create Grafana dashboards that can rival the Hazelcast Management Center. In this bundle, we use PadoGrid's own Grafana dashboards to demonstrate the ease of monitoring multi-clusters.
+Hazelcast provides a wealth of monitoring metrics that can be scraped by Prometheus for creating Grafana dashboards. In this bundle, we use PadoGrid's own Grafana dashboards to demonstrate the ease of monitoring multiple clusters.
 
-![Bundle Template Diagram](/images/bundle-template.jpg)
+![Mutl-Cluster Environment](images/multi-clusters.drawio.png)
 
 ## Required Software
 
