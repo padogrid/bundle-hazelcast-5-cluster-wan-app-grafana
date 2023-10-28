@@ -198,11 +198,106 @@ The left pane contains menu items for cluster members, WAN, storage, stream proc
 
 The toolbar contains the menu for switching cluster, opening the system dashboard, and directly selecting any of the Hazelcast dashboards.
 
-Each dashboard's toolbar cantains the *Main* menu item for quickly returning to the main dashboard.
+Each dashboard's toolbar contains the *Main* menu item for quickly returning to the main dashboard.
 
 The **System** dashboard tabulates member status and provides two rows of panels: *Aggreates* and *Per Member*. The Aggregates row contains panels for monitoring aggreated metrics. The Per Member row contains panels for monitoring individual members.
 
 The **Member** dashboard provides two (2) rows of panels: *Resources* and *Data Structures*. The Resources row contains panels for monitoring the selected member's system resources. The Data Structures row contains panels for monitoring the data strcutures that belong to the selected member. You can switch to another member using the *Member* pulldown menu in the toolbar.
+
+## Adding New Clusters
+
+Adding a new Hazelcast cluster requires the following steps.
+
+1. Create a cluster with a non-conflicting starting port number.
+2. Configure and restart Prometheus to scrape the new cluster metrics.
+3. Update the Grafana dashboard templates to include the new cluster.
+4. Re-import the dashboard templates to Grafana.
+
+1. The following command create a cluster named, `myhz3` with the starting port number 6001.
+
+```bash
+# Create 'myhz3' cluster
+create_cluster -product hazelcast -cluster myhz3 -port 6001
+
+# By default, the new cluster has two (2) members. The following adds one additional member.
+add_member
+```
+
+2. Configure Prometheus
+
+The `create_cluster` command automatically bumps up (or down) the starting port number for Prometheus based on the starting Hazelcast port number. You can get the Prometheus port number by executing `show_cluster -long`.
+
+```bash
+show_cluster -long -cluster myhz3
+```
+
+Output:
+
+```console
+----------------------------------------------------------------
+         CLUSTER: myhz3
+     CLUSTER_DIR: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/grafana-test/clusters/myhz3
+         PRODUCT: hazelcast
+    CLUSTER_TYPE: hazelcast
+             POD: local
+        POD_TYPE: local
+
+01        Member: myhz3-padomac.local-01
+           STATE: Down
+             PID: N/A
+     MEMBER_PORT: 6001
+      DEBUG_PORT: 9701
+ PROMETHEUS_PORT: 8591
+         JMX_URL: service:jmx:rmi:///jndi/rmi://padomac.local:12501/jmxrmi
+     Working Dir: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/grafana-test/clusters/myhz3/run/myhz3-padomac.local-01
+        LOG_FILE: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/grafana-test/clusters/myhz3/log/myhz3-padomac.local-01.log
+...
+```
+
+From the above output we see the first member has the Prometheus port number of 8591. Add the following in `etc/prometheus.yml`.
+
+```bash
+cd_app grafana
+vi etc/prometheus.yml
+```
+
+Edit `etc/prometheus.yaml`:
+
+```yaml
+scrape_configs:
+...
+  - job_name: 'myhz3'
+    scrape_interval: 2s
+    static_configs:
+    static_configs:
+      - targets: [localhost:8591, localhost:8592, localhost:8593, localhost:8594, localhost:8595, localhost:8596, localhost:8597, localhost:8598, localhost:8599, localhost:8600]
+```
+
+✏️  Note that we set the `job_name` attribute to the cluster name, `myhz3`. The dashboard templates filter clusters by the value of this attribute.
+
+3. Update Grafana dashboard templates. There are two (2) template folders: `Hazelcast` and `WanDiscovery`. The `Hazelcast` folder contains dashboards that monitor all clusters. The `WanDiscovery` folder monitors only WAN plugin enabled clusters. Let's update them accordingly.
+
+```bash
+cd_app grafana/bin_sh
+./update_cluster_templating -folder Hazelcast -clusters myhz1,myhz2,myhz3,wan1,wan2
+./update_cluster_templating -folder WanDiscovery -clusters wan1,wan2
+```
+
+✏️  The above commands update the dashboard templates located in the `etc/dashboards` directory.
+
+4. Import the updated dashboard templates. Note that to import the update dashboard templates, we need to first delete the folders in Grafana.
+
+```bash
+cd_ap grafana/bin_sh
+
+# Frist, delete folders in Grafana
+./delete_folder -all
+
+# Import the updated dashboard templates
+./import_folder -all
+```
+
+You should now see five (5) clusters in Grafana.
 
 ## Teardown
 
