@@ -273,7 +273,15 @@ scrape_configs:
       - targets: [localhost:8591, localhost:8592, localhost:8593, localhost:8594, localhost:8595, localhost:8596, localhost:8597, localhost:8598, localhost:8599, localhost:8600]
 ```
 
-✏️  Note that we set the `job_name` attribute to the cluster name, `myhz3`. The dashboard templates filter clusters by the value of this attribute.
+✏️  *Note that we set the `job_name` attribute to the cluster name, `myhz3`. The dashboard templates filter clusters by the value of this attribute.*
+
+Now, restart Prometheus.
+
+```bash
+cd_app grafana/bin_sh
+./stop_prometheus
+./start_prometheus
+```
 
 3. Update Grafana dashboard templates. There are two (2) template folders: `Hazelcast` and `WanDiscovery`. The `Hazelcast` folder contains dashboards that monitor all clusters. The `WanDiscovery` folder monitors only WAN plugin enabled clusters. Let's update them accordingly.
 
@@ -283,7 +291,7 @@ cd_app grafana/bin_sh
 ./update_cluster_templating -folder WanDiscovery -clusters wan1,wan2
 ```
 
-✏️  The above commands update the dashboard templates located in the `etc/dashboards` directory.
+✏️  *The above commands update the dashboard templates located in the `etc/dashboards` directory.*
 
 4. Import the updated dashboard templates. Note that to import the update dashboard templates, we need to first delete the folders in Grafana.
 
