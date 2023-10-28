@@ -33,7 +33,7 @@ Hazelcast provides a wealth of monitoring metrics that can be scraped by Prometh
 ## Required Hardware
 
 - Memory per cluster: 3 GB
-  - There are a total of four (4) clusters. You can run any number of clusters.
+  - There are a total of four (4) clusters. You can run additional clusters as needed.
   - 4 clusters: 12 GB
 - CPUs: 4
 
