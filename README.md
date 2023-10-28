@@ -204,6 +204,10 @@ The **System** dashboard tabulates member status and provides two rows of panels
 
 The **Member** dashboard provides two (2) rows of panels: *Resources* and *Data Structures*. The Resources row contains panels for monitoring the selected member's system resources. The Data Structures row contains panels for monitoring the data strcutures that belong to the selected member. You can switch to another member using the *Member* pulldown menu in the toolbar.
 
+## Screenshot
+
+![Grafana Screenshot](images/grafana-screenshot.png)
+
 ## Teardown
 
 ```bash
