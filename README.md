@@ -157,9 +157,9 @@ cd_app perf_test/bin_sh
 ./ingest_all -cluster wan2
 ```
 
-For testing the included WAN plugin, run one of the following commands. These commands run indefinitely so that you can monitor the progress from Grafana. 
+For testing the included WAN Discovery plugin, run one of the following commands. These commands run indefinitely so that you can monitor the progress from Grafana. 
 
-✏️  *The WAN plugin dashboard called Custom is in the **WAN Discovery** folder.*
+✏️  *You can monitor the WAN Discovery plugin by selecting the **WAN Discovery Plugin** option in the main dashboard.*
 
 ```bash
 cd_app perf_test/bin_sh
