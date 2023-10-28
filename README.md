@@ -236,7 +236,7 @@ Output:
 ```console
 ----------------------------------------------------------------
          CLUSTER: myhz3
-     CLUSTER_DIR: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/grafana-test/clusters/myhz3
+     CLUSTER_DIR: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/bundle-hazelcast-5-cluster-wan-app-granfana/clusters/myhz3
          PRODUCT: hazelcast
     CLUSTER_TYPE: hazelcast
              POD: local
@@ -249,8 +249,8 @@ Output:
       DEBUG_PORT: 9701
  PROMETHEUS_PORT: 8591
          JMX_URL: service:jmx:rmi:///jndi/rmi://padomac.local:12501/jmxrmi
-     Working Dir: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/grafana-test/clusters/myhz3/run/myhz3-padomac.local-01
-        LOG_FILE: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/grafana-test/clusters/myhz3/log/myhz3-padomac.local-01.log
+     Working Dir: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/bundle-hazelcast-5-cluster-wan-app-granfana/clusters/myhz3/run/myhz3-padomac.local-01
+        LOG_FILE: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/bundle-hazelcast-5-cluster-wan-app-granfana/clusters/myhz3/log/myhz3-padomac.local-01.log
 ...
 ```
 
