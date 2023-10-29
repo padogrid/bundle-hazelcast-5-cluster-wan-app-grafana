@@ -7,7 +7,7 @@
 
 # Hazelcast Multi-Cluster Demo
 
-This bundle demonstrates Grafana capabilities of monitoring four (4) Hazelcast clusters.
+This bundle demonstrates Grafana capabilities of monitoring four (4) Hazelcast clusters. It includes two (2) independent clusters and two (2) bi-directional WAN clusters along with a workflow simulator.
 
 ## Installing Bundle
 
