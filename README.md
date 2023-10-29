@@ -12,7 +12,7 @@ This bundle demonstrates Grafana capabilities of monitoring four (4) Hazelcast c
 ## Installing Bundle
 
 ```bash
-install_bundle -init -download -workspace bundle-hazelcast-5-cluster-wan-app-granfana
+install_bundle -init -download -workspace bundle-hazelcast-5-cluster-wan-app-grafana
 ```
 
 ## Use Case
