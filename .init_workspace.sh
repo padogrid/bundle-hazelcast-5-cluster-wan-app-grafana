@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+#
+# This script initializes the bundle environment. It must be sourced in with 
+# a workspace name as the first argument.
+#
 
 # Workspace name passed in by 'install_bundle'
 WORKSPACE="$1"
@@ -40,6 +44,10 @@ if [ "$ERROR_OCCURED" == "false" ]; then
       fi
    done
 
+   # Build perf_test app - downloads required binaries
+   cd_app perf_test/bin_sh
+   ./build_app
+   
    echo ""
    echo "Bundle workspace initialization complete [$WORKSPACE]."
    echo ""

@@ -105,6 +105,8 @@ hazelcast:
 
   map:
     map*:
+      near-cache:
+        max-idle-seconds: 100
       per-entry-stats-enabled: true
       wan-replication-ref:  
         to-wan1-maps:
@@ -124,7 +126,27 @@ hazelcast:
       wan-replication-ref:  
         to-wan1-tx:
           merge-policy-class-name: LatestUpdateMergePolicy
-
+    # Indexes for nw data
+    nw/customers:
+      indexes:
+        - name: country
+          type: HASH
+          attributes:
+            - "country"
+      near-cache:
+        max-idle-seconds: 100
+    nw/orders:
+      indexes:
+        - name: freight
+          type: SORTED
+          attributes:
+            - "freight"
+        - name: shipvia
+          type: BITMAP
+          attributes:
+            - "shipVia"
+      near-cache:
+        max-idle-seconds: 100
     mk*:
       eviction:
         eviction-policy: LRU
@@ -195,6 +217,8 @@ hazelcast:
     portable-factories:
       - factory-id: 10000
         class-name: org.hazelcast.addon.hql.impl.PortableFactoryImpl
+      - factory-id: 1
+        class-name: org.hazelcast.demo.nw.data.PortableFactoryImpl
 
   cp-subsystem:
     base-dir: ${hazelcast-addon.cp.base-dir}

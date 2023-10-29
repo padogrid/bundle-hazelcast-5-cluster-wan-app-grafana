@@ -67,22 +67,22 @@ JAVA_OPTS="$JAVA_OPTS -Dhazelcast-addon.hibernate.config=$APP_ETC_DIR/hibernate.
 
 if [ "$CLUSTER_ARG" == "" ]; then
    CLUSTER_ARG="myhz1"
-   MEMBER_PORTS="5601 5602 5603"
-else
-   case "$CLUSTER_ARG" in
-   myhz1) MEMBER_PORTS="5601 5602 5603" ;;
-   myhz2) MEMBER_PORTS="5701 5702 5703" ;;
-   wan1) MEMBER_PORTS="5801 5802 5803" ;;
-   wan2) MEMBER_PORTS="5901 5902 5903" ;;
-   *)
-      echo -e "${CError}ERROR:${CNone} Invalid cluster name [$CLUSTER_ARG]. Valid clusters are myhz1, myhz2, wan1, wan2. Command aborted. ${CNone}"
-      exit 1
-   esac
-   JAVA_OPTS="$JAVA_OPTS -Dhazelcast-addon.cluster-name=$CLUSTER_ARG"
-   for i in $MEMBER_PORTS; do
-      JAVA_OPTS="$JAVA_OPTS -Dhazelcast-addon.member1=localhost:$i"
-   done
 fi
+case "$CLUSTER_ARG" in
+myhz1) MEMBER_PORTS="5601 5602 5603" ;;
+myhz2) MEMBER_PORTS="5701 5702 5703" ;;
+wan1) MEMBER_PORTS="5801 5802 5803" ;;
+wan2) MEMBER_PORTS="5901 5902 5903" ;;
+*)
+   echo -e "${CError}ERROR:${CNone} Invalid cluster name [$CLUSTER_ARG]. Valid clusters are myhz1, myhz2, wan1, wan2. Command aborted. ${CNone}"
+   exit 1
+esac
+JAVA_OPTS="$JAVA_OPTS -Dhazelcast-addon.cluster-name=$CLUSTER_ARG"
+MEMBER_NUM=0
+for i in $MEMBER_PORTS; do
+   MEMBER_NUM=$((MEMBER_NUM+1))
+   JAVA_OPTS="$JAVA_OPTS -Dhazelcast-addon.member$MEMBER_NUM=localhost:$i"
+done
 
 if [ "$HELP" == "true" ]; then
 cat <<EOF
@@ -98,6 +98,7 @@ cat <<EOF
 
 ***************************************
 Cluster: $CLUSTER_ARG
+  Ports: $MEMBER_PORTS
 ***************************************
 EOF
 

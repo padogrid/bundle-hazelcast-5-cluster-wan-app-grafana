@@ -87,6 +87,33 @@ hazelcast:
     ssl:
       enabled: false
 
+  map:
+    map*:
+      near-cache:
+        max-idle-seconds: 100
+
+    # Indexes for nw data
+    nw/customers:
+      indexes:
+        - name: country
+          type: HASH
+          attributes:
+            - "country"
+      near-cache:
+        max-idle-seconds: 100
+    nw/orders:
+      indexes:
+        - name: freight
+          type: SORTED
+          attributes:
+            - "freight"
+        - name: shipvia
+          type: BITMAP
+          attributes:
+            - "shipVia"
+      near-cache:
+        max-idle-seconds: 100
+
   executor-service:
     hz:query:
       pool-size: 16
@@ -97,6 +124,8 @@ hazelcast:
     portable-factories:
       - factory-id: 10000
         class-name: org.hazelcast.addon.hql.impl.PortableFactoryImpl
+      - factory-id: 1
+        class-name: org.hazelcast.demo.nw.data.PortableFactoryImpl
 
   cp-subsystem:
     base-dir: ${hazelcast-addon.cp.base-dir}

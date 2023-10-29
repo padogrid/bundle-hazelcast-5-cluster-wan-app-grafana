@@ -114,7 +114,7 @@ cd_app grafana/bin_sh
 ./import_folder -all
 ```
 
-### 4. Open Grafana in the browser.
+### 4. Open Grafana in the browser
 
 Grafana URL: <http://localhost:3000>
 
@@ -135,26 +135,24 @@ Open the **00Main** dashboard.
 
 The **00Main** dashboard is the main (home) dashboard that provides a menu of all available dashaboards. See [Navigating Hazelcast Dashboards](#navigating-hazelcast-dashboards) for dashboard instructions.
 
-### 5. Ingest Data
+### 5. Simulate workflows
 
-There are four (4) `perf_test` apps included in the bundle. Each app targets their respective cluster for ingesting data.
-
-To ingest data into data structures, run the `ingest_all` script from the `perf_test/bin_sh` directory as follows.
+The included `etc/group-workflow.properties` file simulates workflows by executing various Hazelcast data structure operations. You can run it per cluster as follows.
 
 ```bash
 cd_app perf_test/bin_sh
 
 # myhz1
-./ingest_all -cluster myhz1
+./test_group -run -prop ../etc/group-workflow.properties -cluster myhz1
 
 # myhz2
-./ingest_all -cluster myhz2
+./test_group -run -prop ../etc/group-workflow.properties -cluster myhz2
 
 # wan1
-./ingest_all -cluster wan1
+./test_group -run -prop ../etc/group-workflow.properties -cluster wan1
 
 # wan2
-./ingest_all -cluster wan2
+./test_group -run -prop ../etc/group-workflow.properties -cluster wan2
 ```
 
 For testing the included WAN Discovery plugin, run one of the following commands. These commands run indefinitely so that you can monitor the progress from Grafana. 
@@ -204,7 +202,9 @@ The **System** dashboard tabulates member status and provides two rows of panels
 
 The **Member** dashboard provides two (2) rows of panels: *Resources* and *Data Structures*. The Resources row contains panels for monitoring the selected member's system resources. The Data Structures row contains panels for monitoring the data strcutures that belong to the selected member. You can switch to another member using the *Member* pulldown menu in the toolbar.
 
-## Adding New Clusters
+## Adding/Deleting Clusters
+
+### Adding a cluster
 
 Adding a new Hazelcast cluster requires the following steps.
 
@@ -212,6 +212,17 @@ Adding a new Hazelcast cluster requires the following steps.
 2. Configure and restart Prometheus to scrape the new cluster metrics.
 3. Update the Grafana dashboard templates to include the new cluster.
 4. Re-import the dashboard templates to Grafana.
+
+### Deleting a cluster
+
+Deleting a Hazelcast cluster requires the following steps.
+
+1. Stop and remove the cluster from the workspace by executing `stop-cluster` and `remove_cluster`, respectively.
+1. Remove the cluster entry identified by the `job_name` attribute in the Prometheus configuration file.
+1. Update the Grafana dashboard templates to execlude the deleted cluster.
+1. Re-import the dashboard templates to Grafana.
+
+### Example: Add a new cluster
 
 1. The following command create a cluster named, `myhz3` with the starting port number 6001.
 
@@ -323,7 +334,7 @@ stop_workspace -all
 
 1. *Hazelcast Grafana App*, Padogrid, <https://github.com/padogrid/padogrid/wiki/Hazelcast-Grafana-App>
 1. *Hazelcast Kubernetes Helm Charts*, PadoGrid Bundles, <https://github.com/padogrid/bundle-hazelcast-3n4n5-k8s-kubectl_helm>
-1. *Grafana*, GranfnaLabs, <https://grafana.com/>
+1. *Grafana*, GrafanaLabs, <https://grafana.com/>
 1. *Prometheus*, Prometheus, <https://prometheus.io/>
 
 ---

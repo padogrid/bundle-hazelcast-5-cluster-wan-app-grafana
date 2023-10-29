@@ -126,6 +126,37 @@ IMPORTANT:
 		</wan-replication-ref>
 	</map>
 
+   <!-- Indexes for nw data -->
+   <map name="nw/customers">
+      <indexes>
+         <index name="country">
+            <attributes>
+               <attribute>country</attribute>
+            </attributes>
+         </index>
+      </indexes>
+      <near-cache name="customers">
+         <max-idle-seconds>100</max-idle-seconds>
+      </near-cache>
+   </map>
+   <map name="nw/orders">
+      <indexes>
+         <index name="freight">
+            <attributes>
+               <attribute>freight</attribute>
+            </attributes>
+         </index>
+         <index name="shipvia" type="BITMAP">
+            <attributes>
+               <attribute>shipVia</attribute>
+            </attributes>
+         </index>
+      </indexes>
+      <near-cache name="orders">
+         <max-idle-seconds>100</max-idle-seconds>
+      </near-cache>
+   </map>
+
 	<map name="mk*">
 		<eviction eviction-policy="LRU" max-size-policy="FREE_HEAP_PERCENTAGE" size="20" />
 		<max-idle-seconds>3600</max-idle-seconds>
@@ -205,6 +236,9 @@ IMPORTANT:
 			<portable-factory factory-id="10000">
 			org.hazelcast.addon.hql.impl.PortableFactoryImpl
 			</portable-factory>
+         <portable-factory factory-id="1">
+             org.hazelcast.demo.nw.data.PortableFactoryImpl
+         </portable-factory>
 		</portable-factories>
 	</serialization>
 
