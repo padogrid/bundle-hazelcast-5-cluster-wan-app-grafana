@@ -310,7 +310,8 @@ cd_app grafana/bin_sh
 cd_ap grafana/bin_sh
 
 # Frist, delete folders in Grafana
-./delete_folder -all
+./delete_folder -folder Hazelcast
+./delete_folder -folder WanDiscovery
 
 # Import the updated dashboard templates
 ./import_folder -all
