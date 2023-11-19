@@ -1,0 +1,1595 @@
+{
+  "dashboard": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": false,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Dual Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c285e20e-3b2a-4108-bc28-69238459027a/00dual-main?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Cluster2=$Cluster2&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "dual hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Dual Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "All Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/d3a660bb-5588-491e-849b-6e40b6c0de0e/00main-all?${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "all hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "All Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": false,
+        "title": "PadoGrid",
+        "tooltip": "About PadoGrid",
+        "type": "link",
+        "url": "/d/fdf91a72-5304-4ac4-bb42-9e30f0f0ec11/padogrid${__url_time_range}"
+      }
+    ],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Job status",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 24,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_jet_Metrics_jobs_submitted{$ClusterFilterLabel=\"$Cluster\"}",
+            "format": "table",
+            "instant": true,
+            "legendFormat": "Submitted",
+            "range": false,
+            "refId": "Submitted"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_jet_Metrics_jobs_completedSuccessfully{$ClusterFilterLabel=\"$Cluster\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Completed Successfully",
+            "range": false,
+            "refId": "Completed Successfully"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_jet_Metrics_jobs_completedWithFailure{$ClusterFilterLabel=\"$Cluster\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Failed",
+            "range": false,
+            "refId": "Failed"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_jet_Metrics_jobs_executionStarted{$ClusterFilterLabel=\"$Cluster\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Started",
+            "range": false,
+            "refId": "Started"
+          }
+        ],
+        "title": "Jobs ($Cluster)",
+        "transformations": [
+          {
+            "id": "joinByField",
+            "options": {
+              "byField": "instance",
+              "mode": "outer"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Value #Submitted",
+                  "Value #Completed Successfully",
+                  "Value #Failed",
+                  "Value #Started",
+                  "instance"
+                ],
+                "pattern": "Value.*"
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {
+                "Value #Completed Successfully": 3,
+                "Value #Failed": 4,
+                "Value #Started": 2,
+                "Value #Submitted": 1,
+                "instance": 0
+              },
+              "renameByName": {
+                "Value #Completed Successfully": "Completed",
+                "Value #Failed": "Failed",
+                "Value #Started": "Started",
+                "Value #Submitted": "Submitted",
+                "instance": "Member"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource2}"
+        },
+        "description": "$Cluster2: Job status",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster2&&var-Member=${__value.raw}&${__url_time_range}&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 25,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_jet_Metrics_jobs_submitted{$ClusterFilterLabel=\"$Cluster2\"}",
+            "format": "table",
+            "instant": true,
+            "legendFormat": "Submitted",
+            "range": false,
+            "refId": "Submitted"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_jet_Metrics_jobs_completedSuccessfully{$ClusterFilterLabel=\"$Cluster2\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Completed Successfully",
+            "range": false,
+            "refId": "Completed Successfully"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_jet_Metrics_jobs_completedWithFailure{$ClusterFilterLabel=\"$Cluster2\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Failed",
+            "range": false,
+            "refId": "Failed"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_jet_Metrics_jobs_executionStarted{$ClusterFilterLabel=\"$Cluster2\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Started",
+            "range": false,
+            "refId": "Started"
+          }
+        ],
+        "title": "Jobs ($Cluster2)",
+        "transformations": [
+          {
+            "id": "joinByField",
+            "options": {
+              "byField": "instance",
+              "mode": "outer"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "Value #Submitted",
+                  "Value #Completed Successfully",
+                  "Value #Failed",
+                  "Value #Started",
+                  "instance"
+                ],
+                "pattern": "Value.*"
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {
+                "Value #Completed Successfully": 3,
+                "Value #Failed": 4,
+                "Value #Started": 2,
+                "Value #Submitted": 1,
+                "instance": 0
+              },
+              "renameByName": {
+                "Value #Completed Successfully": "Completed",
+                "Value #Failed": "Failed",
+                "Value #Started": "Started",
+                "Value #Submitted": "Submitted",
+                "instance": "Member"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of computational jobs submitted",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 10
+        },
+        "id": 22,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_jet_Metrics_jobs_submitted{$ClusterFilterLabel=\"$Cluster\"}",
+            "instant": false,
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Jobs: Submitted ($Cluster)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of computational jobs submitted",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 10
+        },
+        "id": 26,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_jet_Metrics_jobs_submitted{$ClusterFilterLabel=\"$Cluster2\"}",
+            "instant": false,
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Jobs: Submitted ($Cluster2)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of computational job executions started. Each job can execute multiple times, for example when it’s restarted or suspended and then resumed",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 18
+        },
+        "id": 20,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_jet_Metrics_jobs_executionStarted{$ClusterFilterLabel=\"$Cluster\"}",
+            "instant": false,
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Jobs: Started ($Cluster)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource2}"
+        },
+        "description": "$Cluster2: Number of computational job executions started. Each job can execute multiple times, for example when it’s restarted or suspended and then resumed",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 18
+        },
+        "id": 27,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_jet_Metrics_jobs_executionStarted{$ClusterFilterLabel=\"$Cluster2\"}",
+            "instant": false,
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Jobs: Started ($Cluster2)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of computational jobs successfully completed",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 26
+        },
+        "id": 21,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_jet_Metrics_jobs_completedSuccessfully{$ClusterFilterLabel=\"$Cluster\"}",
+            "instant": false,
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Jobs: Completed Successfully ($Cluster)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource2}"
+        },
+        "description": "$Cluster2: Number of computational jobs successfully completed",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 26
+        },
+        "id": 28,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_jet_Metrics_jobs_completedSuccessfully{$ClusterFilterLabel=\"$Cluster2\"}",
+            "instant": false,
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Jobs: Completed Successfully ($Cluster2)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of computational jobs that have failed",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 34
+        },
+        "id": 23,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_jet_Metrics_jobs_completedWithFailure{$ClusterFilterLabel=\"$Cluster\"}",
+            "instant": false,
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Jobs: Completed with Failure ($Cluster)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource2}"
+        },
+        "description": "$Cluster2: Number of computational jobs that have failed",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 34
+        },
+        "id": 29,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_jet_Metrics_jobs_completedWithFailure{$ClusterFilterLabel=\"$Cluster2\"}",
+            "instant": false,
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Jobs: Completed with Failure ($Cluster2)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of computational job executions finished. Each job can execute multiple times, for example when it’s restarted or suspended and then resumed",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 42
+        },
+        "id": 30,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_jet_Metrics_jobs_executionTerminated{$ClusterFilterLabel=\"$Cluster\"}",
+            "instant": false,
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Jobs: Execution Terminated ($Cluster)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource2}"
+        },
+        "description": "$Cluster2: Number of computational job executions finished. Each job can execute multiple times, for example when it’s restarted or suspended and then resumed",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 42
+        },
+        "id": 31,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_jet_Metrics_jobs_executionTerminated{$ClusterFilterLabel=\"$Cluster2\"}",
+            "instant": false,
+            "legendFormat": "{{instance}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Jobs: Execution Terminated ($Cluster2)",
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 38,
+    "tags": [
+      "jet",
+      "dual hazelcast"
+    ],
+    "templating": {
+      "list": [
+        {
+          "hide": 2,
+          "name": "ClusterFilterLabel",
+          "query": "job",
+          "skipUrlSync": false,
+          "type": "constant",
+          "datasource": "${DATASOURCE}"
+        },
+        {
+          "hide": 0,
+          "includeAll": false,
+          "label": "Source",
+          "multi": false,
+          "name": "DataSource",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Cluster",
+          "multi": false,
+          "name": "Cluster",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "hide": 0,
+          "includeAll": false,
+          "label": "Source2",
+          "multi": false,
+          "name": "DataSource2",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource2}"
+          },
+          "definition": "label_values(job)",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Cluster2",
+          "multi": false,
+          "name": "Cluster2",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "filters": [],
+          "hide": 0,
+          "name": "Filters",
+          "skipUrlSync": false,
+          "type": "adhoc"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-5m",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ]
+    },
+    "timezone": "",
+    "title": "Dual Jet",
+    "uid": "cd524a57-aea5-4ec6-b421-973f65f2c167",
+    "weekStart": ""
+  },
+  "folderId": "${FOLDER_ID}",
+  "overWrite": false
+}

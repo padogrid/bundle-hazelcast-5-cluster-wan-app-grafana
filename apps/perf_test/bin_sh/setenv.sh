@@ -69,12 +69,14 @@ if [ "$CLUSTER_ARG" == "" ]; then
    CLUSTER_ARG="myhz1"
 fi
 case "$CLUSTER_ARG" in
-myhz1) MEMBER_PORTS="5601 5602 5603" ;;
-myhz2) MEMBER_PORTS="5701 5702 5703" ;;
-wan1) MEMBER_PORTS="5801 5802 5803" ;;
-wan2) MEMBER_PORTS="5901 5902 5903" ;;
+myhz1) MEMBER_PORTS="5701 5702 5703" ;;
+myhz2) MEMBER_PORTS="5801 5802 5803" ;;
+myhz3) MEMBER_PORTS="5901 5902 5903" ;;
+wan1) MEMBER_PORTS="6001 6002 6003" ;;
+wan2) MEMBER_PORTS="6101 6102 6103" ;;
+myhz4) MEMBER_PORTS="6201 6202 6203" ;;
 *)
-   echo -e "${CError}ERROR:${CNone} Invalid cluster name [$CLUSTER_ARG]. Valid clusters are myhz1, myhz2, wan1, wan2. Command aborted. ${CNone}"
+   echo -e "${CError}ERROR:${CNone} Invalid cluster name [$CLUSTER_ARG]. Valid clusters are myhz1, myhz2, myhz3, wan1, wan2. Command aborted. ${CNone}"
    exit 1
 esac
 JAVA_OPTS="$JAVA_OPTS -Dhazelcast-addon.cluster-name=$CLUSTER_ARG"
@@ -88,7 +90,7 @@ if [ "$HELP" == "true" ]; then
 cat <<EOF
 
 Supplemental Options:
-       -cluster myhz1|myhz2|wan1|wan2
+       -cluster myhz1|myhz2|myhz3|wan1|wan2
                          Use this option to specify the target cluster. Default: myhz1
 EOF
 

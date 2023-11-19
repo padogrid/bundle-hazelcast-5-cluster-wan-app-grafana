@@ -40,9 +40,8 @@ IMPORTANT:
 ******************************************************************************* -->
 
 <hazelcast xmlns="http://www.hazelcast.com/schema/config"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://www.hazelcast.com/schema/config
-           http://www.hazelcast.com/schema/config/hazelcast-config-5.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.hazelcast.com/schema/config http://www.hazelcast.com/schema/config/hazelcast-config-5.0.xsd">
 
 	<properties>
 		<property name="hazelcast.phone.home.enabled">false</property>
@@ -54,16 +53,16 @@ IMPORTANT:
 		<property name="hazelcast.addon.ipdiscoveryservice.service-delay-in-msec">30000</property>
 		<property name="hazelcast.addon.ipdiscoveryservice.connection-timeout-in-msec">200</property>
 		<property name="hazelcast.addon.ipdiscoveryservice.read-timeout-in-msec">200</property>
-		<property name="hazelcast.addon.ipdiscoveryservice.jmx-use-hazelcast-object-name">false</property>
-	 </properties>
-	 <listeners>
+		<property name="hazelcast.addon.ipdiscoveryservice.jmx-use-hazelcast-object-name">true</property>
+	</properties>
+	<listeners>
 		<!-- IpDiscoveryInitializer is invoked during bootstrap to eagerly conducts
 		IP probing. Without the initializer, the probing is done lazily when the
 		first write operation is detected. -->
 		<listener>
-		   org.hazelcast.addon.spi.discovery.IpDiscoveryStartupInitializer
+			org.hazelcast.addon.spi.discovery.IpDiscoveryStartupInitializer
 		</listener>
-	 </listeners>
+	</listeners>
 
 	<!-- Enable jet (required for SQL) -->
 	<jet enabled="true" resource-upload-enabled="true">
@@ -71,7 +70,7 @@ IMPORTANT:
 
 	<cluster-name>${hazelcast-addon.cluster-name}</cluster-name>
 
-    <management-center scripting-enabled="true"/>
+	<management-center scripting-enabled="true" />
 
 	<user-code-deployment enabled="true">
 		<class-cache-mode>ETERNAL</class-cache-mode>
@@ -101,7 +100,27 @@ IMPORTANT:
 		<socket-interceptor enabled="false" />
 	</network>
 
+	<native-memory enabled="true">
+		<size unit="MEGABYTES" value="512" />
+	</native-memory>
+
+	<map name="nmap*">
+		<in-memory-format>NATIVE</in-memory-format>
+		<eviction eviction-policy="LRU" max-size-policy="FREE_NATIVE_MEMORY_PERCENTAGE" size="20" />
+		<per-entry-stats-enabled>true</per-entry-stats-enabled>
+		<merkle-tree enabled="true">
+			<depth>10</depth>
+		</merkle-tree>
+		<wan-replication-ref name="to-wan2-custom">
+			<merge-policy-class-name>LatestUpdateMergePolicy</merge-policy-class-name>
+		</wan-replication-ref>
+	</map>
+
 	<map name="map*">
+		<near-cache>
+			<max-idle-seconds>120</max-idle-seconds>
+		</near-cache>
+		<max-idle-seconds>120</max-idle-seconds>
 		<per-entry-stats-enabled>true</per-entry-stats-enabled>
 		<wan-replication-ref name="to-wan2-maps">
 			<merge-policy-class-name>LatestUpdateMergePolicy</merge-policy-class-name>
@@ -126,106 +145,153 @@ IMPORTANT:
 		</wan-replication-ref>
 	</map>
 
-   <!-- Indexes for nw data -->
-   <map name="nw/customers">
-      <indexes>
-         <index name="country">
-            <attributes>
-               <attribute>country</attribute>
-            </attributes>
-         </index>
-      </indexes>
-      <near-cache name="customers">
-         <max-idle-seconds>100</max-idle-seconds>
-      </near-cache>
-   </map>
-   <map name="nw/orders">
-      <indexes>
-         <index name="freight">
-            <attributes>
-               <attribute>freight</attribute>
-            </attributes>
-         </index>
-         <index name="shipvia" type="BITMAP">
-            <attributes>
-               <attribute>shipVia</attribute>
-            </attributes>
-         </index>
-      </indexes>
-      <near-cache name="orders">
-         <max-idle-seconds>100</max-idle-seconds>
-      </near-cache>
-   </map>
+	<!-- Indexes for nw data -->
+	<map name="nw/customers">
+		<indexes>
+			<index name="country">
+				<attributes>
+					<attribute>country</attribute>
+				</attributes>
+			</index>
+		</indexes>
+		<near-cache name="customers">
+			<max-idle-seconds>120</max-idle-seconds>
+		</near-cache>
+	</map>
+	<map name="nw/orders">
+		<indexes>
+			<index name="freight">
+				<attributes>
+					<attribute>freight</attribute>
+				</attributes>
+			</index>
+			<index name="shipvia" type="BITMAP">
+				<attributes>
+					<attribute>shipVia</attribute>
+				</attributes>
+			</index>
+		</indexes>
+		<near-cache name="orders">
+			<max-idle-seconds>120</max-idle-seconds>
+		</near-cache>
+	</map>
 
 	<map name="mk*">
 		<eviction eviction-policy="LRU" max-size-policy="FREE_HEAP_PERCENTAGE" size="20" />
-		<max-idle-seconds>3600</max-idle-seconds>
+		<!-- 5 min idle time -->
+		<max-idle-seconds>300</max-idle-seconds>
 		<merkle-tree enabled="true">
-		   <depth>10</depth>
+			<depth>10</depth>
 		</merkle-tree>
 		<wan-replication-ref name="to-wan2-custom">
-		   <merge-policy-class-name>LatestUpdateMergePolicy</merge-policy-class-name>
+			<merge-policy-class-name>LatestUpdateMergePolicy</merge-policy-class-name>
 		</wan-replication-ref>
 		<per-entry-stats-enabled>true</per-entry-stats-enabled>
-	 </map>
+	</map>
 
 	<wan-replication name="to-wan2-maps">
 		<batch-publisher>
 			<cluster-name>wan2</cluster-name>
 			<publisher-id>maps</publisher-id>
-			<target-endpoints>localhost:5901,localhost:5902,localhost:5903</target-endpoints>
+			<target-endpoints>localhost:6101,localhost:6102,localhost:6103</target-endpoints>
 		</batch-publisher>
 	</wan-replication>
 	<wan-replication name="to-wan2-tx">
 		<batch-publisher>
 			<cluster-name>wan2</cluster-name>
 			<publisher-id>transactions</publisher-id>
-			<target-endpoints>localhost:5901,localhost:5902,localhost:5903</target-endpoints>
+			<target-endpoints>localhost:6101,localhost:6102,localhost:6103</target-endpoints>
 		</batch-publisher>
 	</wan-replication>
 	<wan-replication name="to-wan2-custom">
 		<batch-publisher>
-		   <cluster-name>wan2</cluster-name>
-		   <publisher-id>custom</publisher-id>
-		   <batch-size>1000</batch-size>
-		   <queue-capacity>100000</queue-capacity>
-		   <batch-max-delay-millis>1000</batch-max-delay-millis>
-		   <max-concurrent-invocations>12</max-concurrent-invocations>
-		   <queue-full-behavior>DISCARD_AFTER_MUTATION</queue-full-behavior>
-		   <acknowledge-type>ACK_ON_RECEIPT</acknowledge-type>
+			<cluster-name>wan2</cluster-name>
+			<publisher-id>custom1</publisher-id>
+			<batch-size>1000</batch-size>
+			<queue-capacity>
+		100000</queue-capacity>
+			<batch-max-delay-millis>1000</batch-max-delay-millis>
+			<max-concurrent-invocations>
+		12</max-concurrent-invocations>
+			<queue-full-behavior>DISCARD_AFTER_MUTATION</queue-full-behavior>
+			<acknowledge-type>
+		ACK_ON_RECEIPT</acknowledge-type>
 		   <response-timeout-millis>60000</response-timeout-millis>
 		   <sync>
-			  <consistency-check-strategy>MERKLE_TREES</consistency-check-strategy>
-		   </sync>
+				<consistency-check-strategy>MERKLE_TREES</consistency-check-strategy>
+			</sync>
 		   <discovery-strategies>
-			  <discovery-strategy enabled="true"
-				 class="org.hazelcast.addon.spi.discovery.IpDiscoveryStrategy">
-				 <properties>
-					<!-- tag is used as log prefix and is a part of JMX metric name -->
-					<property name="tag">WanDiscovery-mk</property>
-               <property name="target-endpoints">localhost:5901,localhost:5902,localhost:5902,localhost:5903,localhost:5904,localhost:5905,localhost:5906,localhost:5907,localhost:5908,localhost:5909,localhost:5910</property>
-					<property name="probe-type">socket</property>
-					<!-- If service-enabled=true, then the probing is done in the dedicated thread.
+				<discovery-strategy enabled="true"
+					class="org.hazelcast.addon.spi.discovery.IpDiscoveryStrategy">
+					<properties>
+						<!-- tag is used as log prefix and is a part of JMX metric name -->
+						<property name="tag">WanDiscovery-mk</property>
+						<property name="target-endpoints">localhost:6101,localhost:6102,localhost:6102,localhost:6103,localhost:6104,localhost:6105,localhost:6106,localhost:6107,localhost:6108,localhost:6109,localhost:6110</property>
+						<property name="probe-type">socket</property>
+						<!-- If service-enabled=true, then the probing is done in the dedicated
+						thread.
 							  else if service-enabled=false then the probing is done in the Hazelcast
 							  discovery thread.  Default is false -->
-					<property name="service-enabled">true</property>
-					<!-- service-delay-in-msec applies only if service-enabled=true.
+						<property name="service-enabled">true</property>
+						<!-- service-delay-in-msec applies only if service-enabled=true.
 							  If multiple strategies are listed then the first one configured
 							  overrides others. -->
-					<property name="service-delay-in-msec">30000</property>
-					<!-- connection-timout-in-msec applies only if service-enabled=false -->
-					<property name="connection-timeout-in-msec">200</property>
-					<!-- read-timeout-in-msec only if service-enabled=false -->
-					<property name="read-timeout-in-msec">200</property>
-				 </properties>
-			  </discovery-strategy>
-		   </discovery-strategies>
+						<property name="service-delay-in-msec">30000</property>
+						<!-- connection-timout-in-msec applies only if service-enabled=false -->
+						<property name="connection-timeout-in-msec">200</property>
+						<!-- read-timeout-in-msec only if service-enabled=false -->
+						<property name="read-timeout-in-msec">200</property>
+					</properties>
+				</discovery-strategy>
+			</discovery-strategies>
 		</batch-publisher>
-	 </wan-replication>
+		<batch-publisher>
+			<cluster-name>wan2</cluster-name>
+			<publisher-id>custom2</publisher-id>
+			<batch-size>1000</batch-size>
+			<queue-capacity>
+		100000</queue-capacity>
+			<batch-max-delay-millis>1000</batch-max-delay-millis>
+			<max-concurrent-invocations>
+		12</max-concurrent-invocations>
+			<queue-full-behavior>DISCARD_AFTER_MUTATION</queue-full-behavior>
+			<acknowledge-type>
+		ACK_ON_RECEIPT</acknowledge-type>
+		   <response-timeout-millis>60000</response-timeout-millis>
+		   <sync>
+				<consistency-check-strategy>MERKLE_TREES</consistency-check-strategy>
+			</sync>
+		   <discovery-strategies>
+				<discovery-strategy enabled="true"
+					class="org.hazelcast.addon.spi.discovery.IpDiscoveryStrategy">
+					<properties>
+						<!-- tag is used as log prefix and is a part of JMX metric name -->
+						<property name="tag">WanDiscovery-nmap</property>
+						<property name="target-endpoints">localhost:6101,localhost:6102,localhost:6102,localhost:6103,localhost:6104</property>
+						<property name="probe-type">socket</property>
+						<!-- If service-enabled=true, then the probing is done in the dedicated
+						thread.
+							  else if service-enabled=false then the probing is done in the Hazelcast
+							  discovery thread.  Default is false -->
+						<property name="service-enabled">true</property>
+						<!-- service-delay-in-msec applies only if service-enabled=true.
+							  If multiple strategies are listed then the first one configured
+							  overrides others. -->
+						<property name="service-delay-in-msec">30000</property>
+						<!-- connection-timout-in-msec applies only if service-enabled=false -->
+						<property name="connection-timeout-in-msec">200</property>
+						<!-- read-timeout-in-msec only if service-enabled=false -->
+						<property name="read-timeout-in-msec">200</property>
+					</properties>
+				</discovery-strategy>
+			</discovery-strategies>
+		</batch-publisher>
+	</wan-replication>
 
 	<executor-service name="hz:query">
 		<pool-size>16</pool-size>
-		<!--Queue capacity. 0 means Integer.MAX_VALUE. -->
+		<!--Queue
+		capacity. 0 means Integer.MAX_VALUE. -->
 		<queue-capacity>0</queue-capacity>
 	</executor-service>
 
@@ -236,7 +302,7 @@ IMPORTANT:
 			<portable-factory factory-id="10000">
 			org.hazelcast.addon.hql.impl.PortableFactoryImpl
 			</portable-factory>
-         <portable-factory factory-id="1">
+			<portable-factory factory-id="1">
              org.hazelcast.demo.nw.data.PortableFactoryImpl
          </portable-factory>
 		</portable-factories>

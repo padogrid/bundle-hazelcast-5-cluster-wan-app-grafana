@@ -30,7 +30,7 @@ APP_ETC_DIR=$APP_DIR/etc
 
 #
 # Variables in use. Override them in setenv.sh.
-#   DEFAULT_FOLDER       The default folder name. Default: padogrid-perf_test
+#   DEFAULT_FOLDER       The default folder name. Default: Hazelcast-perf_test
 #   DEFAULT_DATASOURCE   The default data source name. Default: Prometheus
 #   DEFAULT_LABEL        The default label for filtering clusters. Default: job
 #   GRAFANA_PROTOCOL     'http' or 'https'. Default: http
@@ -73,7 +73,7 @@ EXPORT_TEMPLATE_DIR=$APP_DIR/templates
 #
 # Default folder name
 #
-DEFAULT_FOLDER="padogrid-perf_test"
+DEFAULT_FOLDER="Hazelcast-perf_test"
 
 #
 # Default data source name
@@ -84,6 +84,11 @@ DEFAULT_DATASOURCE="Prometheus"
 # Default label for filtering clusters
 #
 DEFAULT_LABEL="job"
+
+#
+# Default cluter list (comma-separated)
+#
+DEFAULT_CLUSTERS="hazelcast,hazelcast"
 
 #
 # Source in app specifics
@@ -316,3 +321,33 @@ function getAllGrafanaRwePaths
    echo "$RWE_PATHS"
 }
 
+#
+# Regex for filtering Prometheus data source names. Empty string includes all.
+#
+DATASOURCE_REGEX=""
+
+EDITABLE="false"
+for i in "$@"; do
+   case "$i" in 
+   -editable)
+      EDITABLE="true"
+      ;;
+   esac
+done
+
+if [ "$CLUSTERS_ARG" == "" ]; then
+   CLUSTERS="$DEFAULT_CLUSTERS"
+else
+   CLUSTERS="$CLUSTERS_ARG"
+fi
+
+if [ "$LABEL_ARG" == "" ]; then
+   LABEL="$DEFAULT_LABEL"
+else
+   LABEL="$LABEL_ARG"
+fi
+
+#
+# PadoGrid provided folders
+#
+PADOGRID_FOLDERS="Hazelcast HazelcastDual HazelcastAll Hazelcast-perf_test Padogrid"

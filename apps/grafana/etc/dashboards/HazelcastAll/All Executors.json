@@ -1,0 +1,1183 @@
+{
+  "dashboard": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": false,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Dual Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c285e20e-3b2a-4108-bc28-69238459027a/00dual-main?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Cluster2=$Cluster2&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "dual hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Dual Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "All Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/d3a660bb-5588-491e-849b-6e40b6c0de0e/00main-all?${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "all hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "All Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": false,
+        "title": "PadoGrid",
+        "tooltip": "About PadoGrid",
+        "type": "link",
+        "url": "/d/fdf91a72-5304-4ac4-bb42-9e30f0f0ec11/padogrid${__url_time_range}"
+      }
+    ],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Overall executor status",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "percentage",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total Execution Time"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "ms"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total Start Latency"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "ms"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Executor"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Executor Link",
+                      "url": "/d/a67970e5-664d-4f23-84b3-3555e2e15e26/executor?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Executor=${__value.text}&var-MapType=executor&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "custom.width",
+                  "value": 272
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Creation Time"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "dateTimeAsIsoNoDateIfToday"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 11,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_creationTime{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Creation Time"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_totalExecutionTime{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Total Execution Time"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_totalStartLatency{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Total Start Latency"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_started{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Started"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_remainingQueueCapacity{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor.internal\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Remaining Queue Capacity"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_poolSize{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor.internal\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Pool Size"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_queueSize{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor.internal\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Queue Size"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_pending{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Pending"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_maximumPoolSize{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor.internal\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Max Pool Size"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_completedTasks{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor.internal\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Completed Tasks"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_completed{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Completed"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_cancelled{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "Cancelled"
+          }
+        ],
+        "title": "Executors",
+        "transformations": [
+          {
+            "id": "joinByField",
+            "options": {
+              "byField": "tag0",
+              "mode": "outer"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "pattern": "^job|^instance|tag0|Value.*"
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {
+                "Value #Cancelled": 4,
+                "Value #Completed": 3,
+                "Value #Completed Tasks": 5,
+                "Value #Creation Time": 12,
+                "Value #Max Pool Size": 11,
+                "Value #Pending": 2,
+                "Value #Pool Size": 10,
+                "Value #Queue Size": 6,
+                "Value #Remaining Queue Capacity": 7,
+                "Value #Started": 1,
+                "Value #Total Execution Time": 8,
+                "Value #Total Start Latency": 9,
+                "tag0": 0
+              },
+              "renameByName": {
+                "Value #A": "",
+                "Value #Average Age": "Average Age",
+                "Value #Backups": "Backups",
+                "Value #Cancelled": "Cancelled",
+                "Value #Completed": "Completed",
+                "Value #Completed Tasks": "Completed Tasks",
+                "Value #Creation Time": "Creation Time",
+                "Value #Events": "Events",
+                "Value #Execution Time": "Execution Time",
+                "Value #G": "",
+                "Value #Items": "Items",
+                "Value #Max Age": "Max Age",
+                "Value #Max Pool Size": "Max Pool Size",
+                "Value #Min Age": "Min Age",
+                "Value #Offers": "Offers",
+                "Value #Other Operations": "Other Operations",
+                "Value #Pending": "Pending",
+                "Value #Polls": "Polls",
+                "Value #Pool Size": "Pool Size",
+                "Value #Queue Capacity": "Queue Capacity",
+                "Value #Queue Size": "Queue Size",
+                "Value #Rejected Offers": "Rejected Offers",
+                "Value #Remaining Queue Capacity": "Remaining Queue Capacity",
+                "Value #Start Latency": "Start Latency",
+                "Value #Started": "Started",
+                "Value #Total": "Total",
+                "Value #Total Execution Time": "Total Execution Time",
+                "Value #Total Operations": "Total Operations",
+                "Value #Total Start Latency": "Total Start Latency",
+                "tag0": "Executor"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Number of started, completed, and cancelled operations on the executor service across all clusters",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [
+              {
+                "options": {
+                  "^.*(=)(\\w.*).*\"$": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 14,
+          "w": 12,
+          "x": 0,
+          "y": 13
+        },
+        "id": 12,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_Metrics_started{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Started"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_Metrics_completed{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Completed"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_Metrics_cancelled{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Cancelled"
+          }
+        ],
+        "title": "Executors: Execution Count",
+        "transformations": [
+          {
+            "id": "joinByField",
+            "options": {
+              "byField": "tag0",
+              "mode": "outer"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "pattern": "job|instance|tag0|Value.*"
+              }
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {
+                "Value #Average Age": 5,
+                "Value #Backups": 2,
+                "Value #Events": 6,
+                "Value #Items": 1,
+                "Value #Max Age": 3,
+                "Value #Min Age": 4,
+                "Value #Offers": 7,
+                "Value #Other Operations": 9,
+                "Value #Polls": 8,
+                "Value #Rejected Offers": 10,
+                "Value #Total Operations": 11,
+                "tag0": 0
+              },
+              "renameByName": {
+                "Value #A": "",
+                "Value #Average Age": "Average Age",
+                "Value #Backups": "Backups",
+                "Value #Cancelled": "Cancelled",
+                "Value #Completed": "Completed",
+                "Value #Events": "Events",
+                "Value #G": "",
+                "Value #Items": "Items",
+                "Value #Max Age": "Max Age",
+                "Value #Min Age": "Min Age",
+                "Value #Offers": "Offers",
+                "Value #Other Operations": "Other Operations",
+                "Value #Polls": "Polls",
+                "Value #Rejected Offers": "Rejected Offers",
+                "Value #Started": "Started",
+                "Value #Total": "Total",
+                "Value #Total Operations": "Total Operations",
+                "tag0": "Executor"
+              }
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of pending tasks of the member that has the maximum value in all clusters",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "none"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 14,
+          "w": 12,
+          "x": 12,
+          "y": 13
+        },
+        "id": 13,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "table",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "10.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "max(com_hazelcast_Metrics_queueSize{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor.internal\"})",
+            "format": "time_series",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Max Queue Size (Single Member)",
+            "range": true,
+            "refId": "Total Completed"
+          }
+        ],
+        "title": "Executors: Max Queue Size",
+        "transformations": [],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Total number of started, completed, and cancelled operations of the member that has the maximum value",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "none"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 12,
+          "x": 0,
+          "y": 27
+        },
+        "id": 14,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "10.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "max(com_hazelcast_Metrics_started{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"})",
+            "format": "time_series",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "{{instance}} Total Started",
+            "range": true,
+            "refId": "Total Started"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "max(com_hazelcast_Metrics_completed{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"})",
+            "format": "time_series",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "{{instance}} Total Completed",
+            "range": true,
+            "refId": "Total Completed"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "max(com_hazelcast_Metrics_cancelled{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"})",
+            "format": "time_series",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "{{instance}} Total Cancelled",
+            "range": true,
+            "refId": "Total Cancelled"
+          }
+        ],
+        "title": "Executors: Max Total Execution Count",
+        "transformations": [],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total execution time of the finished operations divided by sum of completed and cancelled operations",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "ms"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 12,
+          "x": 12,
+          "y": 27
+        },
+        "id": 15,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "10.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "com_hazelcast_Metrics_totalExecutionTime{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}/(com_hazelcast_Metrics_completed{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"}+com_hazelcast_Metrics_cancelled{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"executor\"})",
+            "format": "time_series",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "{{job}} {{instance}}",
+            "range": true,
+            "refId": "Total Completed"
+          }
+        ],
+        "title": "Executors: Average Execution Latency",
+        "transformations": [],
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 38,
+    "tags": [
+      "all hazelcast",
+      "executor"
+    ],
+    "templating": {
+      "list": [
+        {
+          "hide": 2,
+          "name": "ClusterFilterLabel",
+          "query": "job",
+          "skipUrlSync": false,
+          "type": "constant",
+          "datasource": "${DATASOURCE}"
+        },
+        {
+          "hide": 0,
+          "includeAll": false,
+          "label": "Source",
+          "multi": false,
+          "name": "DataSource",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 2,
+          "includeAll": false,
+          "label": "Cluster",
+          "multi": false,
+          "name": "Cluster",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "hide": 2,
+          "includeAll": false,
+          "label": "Source2",
+          "multi": false,
+          "name": "DataSource2",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource2}"
+          },
+          "definition": "label_values(job)",
+          "hide": 2,
+          "includeAll": false,
+          "label": "Cluster2",
+          "multi": false,
+          "name": "Cluster2",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Clusters",
+          "multi": true,
+          "name": "ClusterList",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "filters": [],
+          "hide": 0,
+          "name": "Filters",
+          "skipUrlSync": false,
+          "type": "adhoc"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-5m",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "All Executors",
+    "uid": "f4d1df17-f9c2-4ee2-81fa-3cf61c84d7c4",
+    "weekStart": ""
+  },
+  "folderId": "${FOLDER_ID}",
+  "overWrite": false
+}

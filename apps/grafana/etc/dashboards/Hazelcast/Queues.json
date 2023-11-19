@@ -4,7 +4,10 @@
       "list": [
         {
           "builtIn": 1,
-          "datasource": "${DATASOURCE}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
@@ -13,7 +16,7 @@
         }
       ]
     },
-    "editable": true,
+    "editable": false,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
     "links": [
@@ -24,10 +27,22 @@
         "keepTime": true,
         "tags": [],
         "targetBlank": false,
+        "title": "System",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c7d2bda7-2511-40fb-aaa1-c7ca8563b528/system-resources?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
         "title": "Main",
         "tooltip": "",
         "type": "link",
-        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-Cluster=$Cluster&${__url_time_range}"
+        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
       },
       {
         "asDropdown": true,
@@ -45,21 +60,77 @@
       },
       {
         "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Dual Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c285e20e-3b2a-4108-bc28-69238459027a/00dual-main?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Cluster2=$Cluster2&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
         "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "dual hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Dual Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "All Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/d3a660bb-5588-491e-849b-6e40b6c0de0e/00main-all?${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "all hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "All Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
         "includeVars": false,
         "keepTime": false,
         "tags": [],
-        "targetBlank": true,
-        "title": "Created by PadoGrid",
-        "tooltip": "Go to PadoGrid",
+        "targetBlank": false,
+        "title": "PadoGrid",
+        "tooltip": "About PadoGrid",
         "type": "link",
-        "url": "http://github.com/padogrid"
+        "url": "/d/fdf91a72-5304-4ac4-bb42-9e30f0f0ec11/padogrid${__url_time_range}"
       }
     ],
     "liveNow": false,
     "panels": [
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Queue status",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -147,7 +218,7 @@
                   "value": [
                     {
                       "title": "Queue Link",
-                      "url": "/d/e0670375-c477-4f7e-82c8-92f3ddfc2209/queue?var-Cluster=$Cluster&var-Queue=${__value.text}&var-MapType=queue&${__url_time_range}"
+                      "url": "/d/e0670375-c477-4f7e-82c8-92f3ddfc2209/queue?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Queue=${__value.text}&var-MapType=queue&${__url_time_range}"
                     }
                   ]
                 }
@@ -177,7 +248,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_ownedItemCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -188,7 +262,10 @@
             "refId": "Items"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_backupItemCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -199,7 +276,10 @@
             "refId": "Backups"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_maxAge{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -210,7 +290,10 @@
             "refId": "Max Age"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_minAge{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -221,7 +304,10 @@
             "refId": "Min Age"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_averageAge{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
@@ -233,7 +319,10 @@
             "refId": "Average Age"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_numberOfOffers{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -244,7 +333,10 @@
             "refId": "Offers"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_numberOfPolls{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -255,7 +347,10 @@
             "refId": "Polls"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -266,7 +361,10 @@
             "refId": "Events"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_numberOfOtherOperations{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -277,7 +375,10 @@
             "refId": "Other Operations"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_numberOfRejectedOffers{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -346,7 +447,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of owned and backup items in this member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -424,7 +529,7 @@
           "showValue": "never",
           "stacking": "none",
           "tooltip": {
-            "mode": "single",
+            "mode": "multi",
             "sort": "none"
           },
           "xTickLabelRotation": 0,
@@ -433,7 +538,10 @@
         "pluginVersion": "10.1.1",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_ownedItemCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -444,7 +552,10 @@
             "refId": "Items"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_backupItemCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -513,7 +624,11 @@
         "type": "barchart"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Min, max, and average age of the items ",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -600,7 +715,10 @@
         "pluginVersion": "10.1.1",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_maxAge{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -611,7 +729,10 @@
             "refId": "Max Age"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_minAge{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -622,7 +743,10 @@
             "refId": "Min Age"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_averageAge{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
@@ -692,7 +816,11 @@
         "type": "barchart"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of operations",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -779,7 +907,10 @@
         "pluginVersion": "10.1.1",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_numberOfOffers{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -790,7 +921,10 @@
             "refId": "Offers"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_numberOfPolls{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -801,7 +935,10 @@
             "refId": "Polls"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_total{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -812,7 +949,10 @@
             "refId": "Total Operations"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_numberOfOtherOperations{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -823,7 +963,10 @@
             "refId": "Other Operations"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_numberOfRejectedOffers{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "table",
@@ -856,17 +999,11 @@
             "options": {
               "excludeByName": {},
               "indexByName": {
-                "Value #Average Age": 5,
-                "Value #Backups": 2,
-                "Value #Events": 6,
-                "Value #Items": 1,
-                "Value #Max Age": 3,
-                "Value #Min Age": 4,
-                "Value #Offers": 7,
-                "Value #Other Operations": 9,
-                "Value #Polls": 8,
-                "Value #Rejected Offers": 10,
-                "Value #Total Operations": 11,
+                "Value #Offers": 1,
+                "Value #Other Operations": 4,
+                "Value #Polls": 2,
+                "Value #Rejected Offers": 3,
+                "Value #Total Operations": 5,
                 "tag0": 0
               },
               "renameByName": {
@@ -892,7 +1029,11 @@
         "type": "barchart"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of event operations (duplicate of eventOperationCount)",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1018,7 +1159,10 @@
         "pluginVersion": "10.1.1",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\",prefix=\"queue\"}",
             "format": "time_series",
@@ -1052,45 +1196,102 @@
           "datasource": "${DATASOURCE}"
         },
         {
-          "current": {
-            "selected": true,
-            "text": "myhz1",
-            "value": "myhz1"
-          },
           "hide": 0,
           "includeAll": false,
+          "label": "Source",
           "multi": false,
-          "name": "Cluster",
-          "options": [
-            {
-              "selected": true,
-              "text": "myhz1",
-              "value": "myhz1"
-            },
-            {
-              "selected": false,
-              "text": "myhz2",
-              "value": "myhz2"
-            },
-            {
-              "selected": false,
-              "text": "wan1",
-              "value": "wan1"
-            },
-            {
-              "selected": false,
-              "text": "wan2",
-              "value": "wan2"
-            }
-          ],
-          "query": "myhz1,myhz2,wan1,wan2",
+          "name": "DataSource",
+          "options": [],
+          "query": "prometheus",
           "queryValue": "",
+          "refresh": 1,
+          "regex": "",
           "skipUrlSync": false,
-          "type": "custom",
-          "datasource": "${DATASOURCE}"
+          "type": "datasource"
         },
         {
-          "datasource": "${DATASOURCE}",
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Cluster",
+          "multi": false,
+          "name": "Cluster",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "hide": 2,
+          "includeAll": false,
+          "label": "Source2",
+          "multi": false,
+          "name": "DataSource2",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource2}"
+          },
+          "definition": "label_values(job)",
+          "hide": 2,
+          "includeAll": false,
+          "label": "Cluster2",
+          "multi": false,
+          "name": "Cluster2",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "filters": [],
           "hide": 0,
           "name": "Filters",

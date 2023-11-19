@@ -4,7 +4,10 @@
       "list": [
         {
           "builtIn": 1,
-          "datasource": "${DATASOURCE}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
@@ -14,7 +17,7 @@
       ]
     },
     "description": "",
-    "editable": true,
+    "editable": false,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
     "links": [
@@ -25,10 +28,22 @@
         "keepTime": true,
         "tags": [],
         "targetBlank": false,
+        "title": "System",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c7d2bda7-2511-40fb-aaa1-c7ca8563b528/system-resources?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
         "title": "Main",
         "tooltip": "",
         "type": "link",
-        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-Cluster=$Cluster&${__url_time_range}"
+        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
       },
       {
         "asDropdown": true,
@@ -46,22 +61,77 @@
       },
       {
         "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Dual Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c285e20e-3b2a-4108-bc28-69238459027a/00dual-main?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Cluster2=$Cluster2&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
         "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "dual hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Dual Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "All Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/d3a660bb-5588-491e-849b-6e40b6c0de0e/00main-all?${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "all hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "All Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
         "includeVars": false,
         "keepTime": false,
         "tags": [],
-        "targetBlank": true,
-        "title": "Created by PadoGrid",
-        "tooltip": "Go to PadoGrid",
+        "targetBlank": false,
+        "title": "PadoGrid",
+        "tooltip": "About PadoGrid",
         "type": "link",
-        "url": "http://github.com/padogrid"
+        "url": "/d/fdf91a72-5304-4ac4-bb42-9e30f0f0ec11/padogrid${__url_time_range}"
       }
     ],
     "liveNow": false,
     "panels": [
       {
         "collapsed": false,
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "gridPos": {
           "h": 1,
           "w": 24,
@@ -76,8 +146,11 @@
         "type": "row"
       },
       {
-        "datasource": "${DATASOURCE}",
-        "description": "",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Name of member clustered in $Cluster",
         "gridPos": {
           "h": 6,
           "w": 4,
@@ -97,7 +170,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "",
             "instant": false,
@@ -110,7 +186,11 @@
         "type": "text"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Member: free vs. used memory",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -152,10 +232,15 @@
         },
         "id": 10,
         "options": {
+          "displayLabels": [
+            "name",
+            "value",
+            "percent"
+          ],
           "legend": {
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": true
+            "showLegend": false
           },
           "pieType": "pie",
           "reduceOptions": {
@@ -166,27 +251,47 @@
             "values": false
           },
           "tooltip": {
-            "mode": "single",
-            "sort": "none"
+            "mode": "multi",
+            "sort": "asc"
           }
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "sum(com_hazelcast_Metrics_usedMemory{instance=\"$Member\"})",
+            "expr": "sum(com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"})",
             "hide": false,
             "instant": true,
-            "legendFormat": "Used Memory",
+            "legendFormat": "Map Memory",
             "range": false,
-            "refId": "Used Memory"
+            "refId": "Map Memory"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "sum(com_hazelcast_Metrics_freeMemory{instance=\"$Member\"})",
+            "expr": "sum(com_hazelcast_Metrics_usedMemory{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"})-sum(com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"})",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Other Used Memory",
+            "range": false,
+            "refId": "Other Used Memory"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "sum(com_hazelcast_Metrics_freeMemory{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"})",
             "hide": false,
             "instant": true,
             "legendFormat": "Free Memory",
@@ -198,7 +303,11 @@
         "type": "piechart"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Member: Member resource overview",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -353,7 +462,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_systemCpuLoad{instance=\"$Member\"}",
@@ -365,7 +477,10 @@
             "refId": "CPU"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_usedMemory{instance=\"$Member\"}",
@@ -377,7 +492,10 @@
             "refId": "Used Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalMemory{instance=\"$Member\"}",
@@ -389,7 +507,10 @@
             "refId": "Total Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_usedMemory{instance=\"$Member\"}/com_hazelcast_Metrics_totalMemory{instance=\"$Member\"}",
@@ -401,7 +522,10 @@
             "refId": "Heap Usage"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_usedNative{instance=\"$Member\"}",
@@ -413,7 +537,10 @@
             "refId": "Used Native Memory"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_committedNative{instance=\"$Member\"}",
@@ -425,7 +552,10 @@
             "refId": "Committed Native Memory"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "jvm_gc_collection_seconds_count{instance=\"$Member\", gc=~\".+Old Generation\"}",
@@ -437,7 +567,10 @@
             "refId": "GC Major Count"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "jvm_gc_collection_seconds_sum{instance=\"$Member\", gc=~\".+Old Generation\"}",
@@ -449,7 +582,10 @@
             "refId": "GC Major Time"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "jvm_gc_collection_seconds_count{instance=\"$Member\", gc=~\".+Young Generation\"}",
@@ -461,7 +597,10 @@
             "refId": "GC Minor Count"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "jvm_gc_collection_seconds_sum{instance=\"$Member\", gc=~\".+Young Generation\"}",
@@ -527,7 +666,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Member: member CPU load",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -604,7 +747,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_systemCpuLoad{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"}",
             "instant": false,
@@ -613,11 +759,15 @@
             "refId": "A"
           }
         ],
-        "title": "CPU Load (Per Member)",
+        "title": "CPU Load",
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Member: total swap space size",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -694,7 +844,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_totalSwapSpaceSize{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"}",
             "instant": false,
@@ -707,7 +860,11 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Member: Member minor and major GC count",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -784,7 +941,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "max(jvm_gc_collection_seconds_count{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", gc=~\".+Young Generation\"})",
             "hide": false,
@@ -794,7 +954,10 @@
             "refId": "GC Minor"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "max(jvm_gc_collection_seconds_count{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", gc=~\".+Old Generation\"})",
             "instant": false,
@@ -807,7 +970,11 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Member: member used native memory",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -884,7 +1051,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_usedNative{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"}",
             "instant": false,
@@ -897,7 +1067,11 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Member: member memories. Keep the used memory below 80% of the max memory.",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -974,7 +1148,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_usedHeap{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"})",
             "hide": false,
@@ -984,7 +1161,10 @@
             "refId": "Used Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_freeHeap{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"})",
             "hide": false,
@@ -994,7 +1174,10 @@
             "refId": "Free Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_maxHeap{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"})",
             "instant": false,
@@ -1007,7 +1190,11 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Member: Member used heap",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1084,7 +1271,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_usedHeap{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"}",
             "hide": false,
@@ -1098,7 +1288,11 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Member: sum of used memory of all maps. This metric appears to apply to native memory only.",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1191,9 +1385,13 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
-            "expr": "sum(com_hazelcast_Metrics_usedMemory{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"})",
+            "exemplar": false,
+            "expr": "sum(com_hazelcast_Metrics_usedMemory{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"})",
             "hide": false,
             "instant": false,
             "legendFormat": "Used Memory Maps",
@@ -1201,9 +1399,12 @@
             "refId": "Used Memory"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
-            "expr": "sum(com_hazelcast_Metrics_freeMemory{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"})",
+            "expr": "sum(com_hazelcast_Metrics_freeMemory{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"})",
             "hide": false,
             "instant": false,
             "legendFormat": "Free Memory",
@@ -1211,9 +1412,13 @@
             "refId": "Free Memory"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
-            "expr": "sum(com_hazelcast_Metrics_maxHeap{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"})",
+            "expr": "sum(com_hazelcast_Metrics_maxHeap{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"})",
+            "hide": true,
             "instant": false,
             "legendFormat": "Max Heap",
             "range": true,
@@ -1224,7 +1429,11 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Member: member number of threads",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1300,7 +1509,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_threadCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\"}",
             "instant": false,
@@ -1314,7 +1526,10 @@
       },
       {
         "collapsed": false,
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "gridPos": {
           "h": 1,
           "w": 24,
@@ -1327,7 +1542,10 @@
         "type": "row"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1394,7 +1612,7 @@
           ]
         },
         "gridPos": {
-          "h": 4,
+          "h": 5,
           "w": 24,
           "x": 0,
           "y": 40
@@ -1416,7 +1634,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_creationTime{instance=\"$Member\", prefix=\"list\"} ",
@@ -1427,7 +1648,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_lastUpdateTime{instance=\"$Member\", prefix=\"list\"}",
@@ -1439,7 +1663,10 @@
             "refId": "B"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_lastAccessTime{instance=\"$Member\", prefix=\"list\"}",
@@ -1501,7 +1728,10 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1578,7 +1808,7 @@
                   "value": [
                     {
                       "title": "Map Link",
-                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
                     }
                   ]
                 },
@@ -1597,7 +1827,7 @@
           "h": 8,
           "w": 24,
           "x": 0,
-          "y": 44
+          "y": 45
         },
         "id": 26,
         "options": {
@@ -1616,7 +1846,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"}",
@@ -1627,7 +1860,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"}",
@@ -1639,7 +1875,10 @@
             "refId": "B"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"}",
@@ -1651,7 +1890,10 @@
             "refId": "C"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_lockedEntryCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"}",
@@ -1663,7 +1905,10 @@
             "refId": "D"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_backupEntryCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"}",
@@ -1675,7 +1920,10 @@
             "refId": "E"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_backupEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"}",
@@ -1687,7 +1935,10 @@
             "refId": "F"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_hits{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"}",
@@ -1699,7 +1950,10 @@
             "refId": "G"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_dirtyEntryCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"map\"}",
@@ -1776,7 +2030,10 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "description": "",
         "fieldConfig": {
           "defaults": {
@@ -1850,7 +2107,7 @@
                   "value": [
                     {
                       "title": "Multi Map Link",
-                      "url": "/d/ea7dd3d2-355c-4b5a-b48a-c7ffd46939bc/multi-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=multiMap&${__url_time_range}"
+                      "url": "/d/ea7dd3d2-355c-4b5a-b48a-c7ffd46939bc/multi-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=multiMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -1869,7 +2126,7 @@
           "h": 6,
           "w": 24,
           "x": 0,
-          "y": 52
+          "y": 53
         },
         "id": 23,
         "options": {
@@ -1888,7 +2145,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -1899,7 +2159,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -1911,7 +2174,10 @@
             "refId": "B"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_putCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -1923,7 +2189,10 @@
             "refId": "C"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_queryCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -1935,7 +2204,10 @@
             "refId": "D"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalMaxPutLatency{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -1947,7 +2219,10 @@
             "refId": "E"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalMaxGetLatency{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -1959,7 +2234,10 @@
             "refId": "F"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -1971,7 +2249,10 @@
             "refId": "G"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_hits{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -1983,7 +2264,10 @@
             "refId": "H"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_getCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -1995,7 +2279,10 @@
             "refId": "I"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_removeCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -2007,7 +2294,10 @@
             "refId": "J"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalMaxSetLatency{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -2019,7 +2309,10 @@
             "refId": "K"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalMaxRemoveLatency{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"multiMap\"}",
@@ -2099,7 +2392,10 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -2166,10 +2462,10 @@
           ]
         },
         "gridPos": {
-          "h": 5,
+          "h": 6,
           "w": 24,
           "x": 0,
-          "y": 58
+          "y": 59
         },
         "id": 27,
         "options": {
@@ -2188,7 +2484,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_creationTime{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"pnCounter\"}",
@@ -2199,7 +2498,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalIncrementOperationCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"pnCounter\"}",
@@ -2211,7 +2513,10 @@
             "refId": "B"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalDecrementOperationCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"pnCounter\"}",
@@ -2223,7 +2528,10 @@
             "refId": "F"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_value{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"pnCounter\"}",
@@ -2286,7 +2594,10 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -2347,7 +2658,7 @@
                   "value": [
                     {
                       "title": "Queue Link",
-                      "url": "/d/e0670375-c477-4f7e-82c8-92f3ddfc2209/queue?var-Cluster=$Cluster&var-Queue=${__value.text}&var-MapType=queue&${__url_time_range}"
+                      "url": "/d/e0670375-c477-4f7e-82c8-92f3ddfc2209/queue?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Queue=${__value.text}&var-MapType=queue&${__url_time_range}"
                     }
                   ]
                 },
@@ -2363,10 +2674,10 @@
           ]
         },
         "gridPos": {
-          "h": 5,
+          "h": 6,
           "w": 24,
           "x": 0,
-          "y": 63
+          "y": 65
         },
         "id": 28,
         "options": {
@@ -2385,7 +2696,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedItemCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"queue\"}",
@@ -2396,7 +2710,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_backupItemCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"queue\"}",
@@ -2408,7 +2725,10 @@
             "refId": "B"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_maxAge{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"queue\"}",
@@ -2420,7 +2740,10 @@
             "refId": "F"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_minAge{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"queue\"}",
@@ -2432,7 +2755,10 @@
             "refId": "G"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_averageAge{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"queue\"}",
@@ -2444,7 +2770,10 @@
             "refId": "C"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_numberOfOffers{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"queue\"}",
@@ -2456,7 +2785,10 @@
             "refId": "D"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_numberOfPolls{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"queue\"}",
@@ -2468,7 +2800,10 @@
             "refId": "E"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"queue\"}",
@@ -2480,7 +2815,10 @@
             "refId": "I"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_numberOfOtherOperations{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"queue\"}",
@@ -2492,7 +2830,10 @@
             "refId": "J"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_numberOfRejectedOffers{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"queue\"}",
@@ -2564,7 +2905,10 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "description": "",
         "fieldConfig": {
           "defaults": {
@@ -2638,7 +2982,7 @@
                   "value": [
                     {
                       "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -2654,10 +2998,10 @@
           ]
         },
         "gridPos": {
-          "h": 5,
+          "h": 6,
           "w": 24,
           "x": 0,
-          "y": 68
+          "y": 71
         },
         "id": 29,
         "options": {
@@ -2676,7 +3020,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2687,7 +3034,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2699,7 +3049,10 @@
             "refId": "B"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_putCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2711,7 +3064,10 @@
             "refId": "C"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_queryCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2723,7 +3079,10 @@
             "refId": "D"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalMaxPutLatency{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2735,7 +3094,10 @@
             "refId": "E"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalMaxGetLatency{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2747,7 +3109,10 @@
             "refId": "F"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2759,7 +3124,10 @@
             "refId": "G"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_hits{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2771,7 +3139,10 @@
             "refId": "H"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_getCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2783,7 +3154,10 @@
             "refId": "I"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_removeCount{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2795,7 +3169,10 @@
             "refId": "J"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_maxPutLatency{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2807,7 +3184,10 @@
             "refId": "L"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_maxGetLatency{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2819,7 +3199,10 @@
             "refId": "K"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_maxRemoveLatency{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"replicatedMap\"}",
@@ -2902,7 +3285,10 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -2969,10 +3355,10 @@
           ]
         },
         "gridPos": {
-          "h": 4,
+          "h": 6,
           "w": 24,
           "x": 0,
-          "y": 73
+          "y": 77
         },
         "id": 30,
         "options": {
@@ -2991,7 +3377,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_creationTime{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"set\"} ",
@@ -3002,7 +3391,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_lastUpdateTime{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"set\"}",
@@ -3014,7 +3406,10 @@
             "refId": "B"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_lastAccessTime{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"set\"}",
@@ -3076,7 +3471,10 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -3143,10 +3541,10 @@
           ]
         },
         "gridPos": {
-          "h": 4,
+          "h": 6,
           "w": 12,
           "x": 0,
-          "y": 77
+          "y": 83
         },
         "id": 31,
         "options": {
@@ -3170,7 +3568,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalPublishes{instance=\"$Member\", prefix=\"topic\"} ",
@@ -3181,7 +3582,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalReceivedMessages{instance=\"$Member\", prefix=\"topic\"} ",
@@ -3245,7 +3649,10 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -3312,10 +3719,10 @@
           ]
         },
         "gridPos": {
-          "h": 4,
+          "h": 6,
           "w": 12,
           "x": 12,
-          "y": 77
+          "y": 83
         },
         "id": 32,
         "options": {
@@ -3334,7 +3741,10 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalPublishes{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"reliableTopic\"} ",
@@ -3345,7 +3755,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalReceivedMessages{$ClusterFilterLabel=\"$Cluster\", instance=\"$Member\", prefix=\"reliableTopic\"} ",
@@ -3427,42 +3840,96 @@
           "datasource": "${DATASOURCE}"
         },
         {
-          "current": {
-            "selected": true,
-            "text": "myhz1",
-            "value": "myhz1"
-          },
           "hide": 0,
           "includeAll": false,
+          "label": "Source",
+          "multi": false,
+          "name": "DataSource",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Cluster",
           "multi": false,
           "name": "Cluster",
-          "options": [
-            {
-              "selected": true,
-              "text": "myhz1",
-              "value": "myhz1"
-            },
-            {
-              "selected": false,
-              "text": "myhz2",
-              "value": "myhz2"
-            },
-            {
-              "selected": false,
-              "text": "wan1",
-              "value": "wan1"
-            },
-            {
-              "selected": false,
-              "text": "wan2",
-              "value": "wan2"
-            }
-          ],
-          "query": "myhz1,myhz2,wan1,wan2",
-          "queryValue": "",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
           "skipUrlSync": false,
-          "type": "custom",
-          "datasource": "${DATASOURCE}"
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "hide": 2,
+          "includeAll": false,
+          "label": "Source2",
+          "multi": false,
+          "name": "DataSource2",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource2}"
+          },
+          "definition": "label_values(job)",
+          "hide": 2,
+          "includeAll": false,
+          "label": "Cluster2",
+          "multi": false,
+          "name": "Cluster2",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
         },
         {
           "current": {
@@ -3470,7 +3937,10 @@
             "text": "localhost:8291",
             "value": "localhost:8291"
           },
-          "datasource": "${DATASOURCE}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "definition": "label_values(com_hazelcast_Metrics_nodes{$ClusterFilterLabel=\"$Cluster\"},instance)",
           "hide": 0,
           "includeAll": false,

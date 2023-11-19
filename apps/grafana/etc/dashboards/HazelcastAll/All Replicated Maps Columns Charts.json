@@ -1,0 +1,2101 @@
+{
+  "dashboard": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": false,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Tables",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/cd23a014-0cb9-4936-bb45-d75c5558607e/all-replicated-maps-columns?${__url_time_range}"
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Dual Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c285e20e-3b2a-4108-bc28-69238459027a/00dual-main?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Cluster2=$Cluster2&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "dual hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Dual Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "All Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/d3a660bb-5588-491e-849b-6e40b6c0de0e/00main-all?${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "all hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "All Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": false,
+        "title": "PadoGrid",
+        "tooltip": "About PadoGrid",
+        "type": "link",
+        "url": "/d/fdf91a72-5304-4ac4-bb42-9e30f0f0ec11/padogrid${__url_time_range}"
+      }
+    ],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Number of entries owned on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 15,
+        "links": [
+          {
+            "title": "Member Link",
+            "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+          }
+        ],
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Entries",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Memory cost of owned entries on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 16,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Entry Memory",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Number of hits (reads) of the locally owned entries",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 12
+        },
+        "id": 18,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_hits{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Hits",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Number of events received on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 12
+        },
+        "id": 17,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Events",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Total number of other operations performed on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 24
+        },
+        "id": 25,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_numberOfOtherOperations{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Other Operations",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Total number of operations on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 24
+        },
+        "id": 26,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_total{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Total Operations",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Number of put operations on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 12,
+          "x": 0,
+          "y": 36
+        },
+        "id": 19,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_putCount{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Put Count",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Number of get operations on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 12,
+          "x": 12,
+          "y": 36
+        },
+        "id": 20,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_getCount{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Get Count",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Number of remove operations on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 49
+        },
+        "id": 21,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_removeCount{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Remove Count",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Total latency of put operations",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 49
+        },
+        "id": 22,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_maxPutLatency{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Max Put Latency",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Total latency of get operations",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 61
+        },
+        "id": 23,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_maxGetLatency{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Max Get Latency",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "Total latency of remove operations",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 61
+        },
+        "id": 24,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "never",
+          "stacking": "normal",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_maxRemoveLatency{$ClusterFilterLabel=~\"$ClusterList\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Max Remove Latency",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "barchart"
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 38,
+    "tags": [
+      "data structure",
+      "replicated map",
+      "all hazelcast"
+    ],
+    "templating": {
+      "list": [
+        {
+          "hide": 2,
+          "name": "ClusterFilterLabel",
+          "query": "job",
+          "skipUrlSync": false,
+          "type": "constant",
+          "datasource": "${DATASOURCE}"
+        },
+        {
+          "hide": 0,
+          "includeAll": false,
+          "label": "Source",
+          "multi": false,
+          "name": "DataSource",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 2,
+          "includeAll": false,
+          "label": "Cluster",
+          "multi": false,
+          "name": "Cluster",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "hide": 2,
+          "includeAll": false,
+          "label": "Source2",
+          "multi": false,
+          "name": "DataSource2",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource2}"
+          },
+          "definition": "label_values(job)",
+          "hide": 2,
+          "includeAll": false,
+          "label": "Cluster2",
+          "multi": false,
+          "name": "Cluster2",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Clusters",
+          "multi": true,
+          "name": "ClusterList",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "filters": [],
+          "hide": 0,
+          "name": "Filters",
+          "skipUrlSync": false,
+          "type": "adhoc"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "All Replicated Maps Columns Charts",
+    "uid": "e3e2da36-9cae-4afb-aaee-b19730886b2e",
+    "weekStart": ""
+  },
+  "folderId": "${FOLDER_ID}",
+  "overWrite": false
+}

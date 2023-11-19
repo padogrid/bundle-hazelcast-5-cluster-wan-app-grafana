@@ -23,18 +23,19 @@ Hazelcast provides a wealth of monitoring metrics that can be scraped by Prometh
 
 ## Required Software
 
-- PadoGrid 0.9.30+
+- PadoGrid 0.9.31+
 - Hazelcast
   - Full Demo: Enterprise 5.x
   - Partial Demo: OSS 5.x (WAN not demonstrable)
 - Grafana 10.x
 - Prometheus 2.x
+- [`jq`](https://jqlang.github.io/jq/download/)
 
 ## Required Hardware
 
 - Memory per cluster: 3 GB
-  - There are a total of four (4) clusters. You can run additional clusters as needed.
-  - 4 clusters: 12 GB
+  - There are a total of five (5) clusters configured. You can run more or less clusters as you wish.
+  - 5 clusters: 15 GB
 - CPUs: 4
 
 ## Bundle Contents
@@ -47,6 +48,7 @@ apps
 clusters
 ├── myhz1
 ├── myhz2
+├── myhz3
 ├── wan1
 └── wan2
 
@@ -57,7 +59,7 @@ groups
 
 ## Installation Steps
 
-Install Prometheus and Grafana. Make sure you have installed PadoGrid 0.9.30 or a later version.
+Install Prometheus and Grafana. Make sure you have installed PadoGrid 0.9.31 or a later version.
 
 ```bash
 install_padogrid -product prometheus
@@ -66,17 +68,20 @@ update_products -product prometheus
 update_products -product grafana
 ```
 
+The JSON processor, `jq`, is required if you want to create or update dashboard templates. You can download it from [here](https://jqlang.github.io/jq/download/).
+
 ## Used Ports
 
 The following ports are used by this demo.
 
 - Grafana: 3000
-- Prometheus: 9090
+- Prometheus: 9090, 9091
 - Hazelcast
-  - `myhz1`: [5601-5620], [8191-8200], [9301-9320], [12101-12120]
-  - `myhz2`: [5701-5720], [8291-8300], [9401-9420], [12201-12220]
-  - `wan1`: [5801-5820], [8391-8400], [9501-9520], [12301-12320]
-  - `wan2`: [5901-5920], [8491-8500], [9601-9620], [12401-12420]
+  - `myhz1`: [5701-5720], [8291-8300], [9401-9420], [12201-12220]
+  - `myhz2`: [5801-5820], [8391-8400], [9501-9520], [12301-12320]
+  - `myhz3`: [5901-5920], [8491-8500], [9601-9620], [12401-12420]
+  - `wan1`: [6001-6020], [8591-8600], [9701-9720], [12501-12520]
+  - `wan2`: [6101-6120], [8691-8700], [9801-9820], [12601-12620]
 
 ## Startup Sequence
 
@@ -84,10 +89,10 @@ The following ports are used by this demo.
 
 There are two (2) groups of clusters as follows.
 
-| Group  | Clusters         | Hazelcast           |
-| ------ | ---------------- | ------------------- |
-| `myhz` | `myhz1`, `myhz2` | OSS or Enterprise   |
-| `wan ` | `wan1`, `wan2`   | Enterprise required |
+| Group  | Clusters                  | Hazelcast           |
+| ------ | ------------------------- | ------------------- |
+| `myhz` | `myhz1`, `myhz2`, `myhz3` | OSS or Enterprise   |
+| `wan ` | `wan1`, `wan2`            | Enterprise required |
 
 The `wan1` and `wan2` clusters are configured with bi-directional WAN replication. These clusters require Hazelcast Enterprise.
 
@@ -101,13 +106,24 @@ start_group -group wan
 
 ### 2. Start Prometheus and Grafana
 
+Start Prometheus for monitoring the `myhz1`, `myhz2`, and `myhz3` clusters. Also, start Grafana.
+
 ```bash
 cd_app grafana/bin_sh
 ./start_prometheus
 ./start_grafana
 ```
 
-### 3. Import dashboards
+If you have Hazelcaast Enterprise installed, then start Prometheus for monitoring the `wan1` and  `wan2` clusters.
+
+```bash
+cd_app grafana/bin_sh
+./start_prometheus_wan
+```
+
+### 3. Import PadoGrid dashboards
+
+Import all the dashboards by executing `import_folder` as follows.
 
 ```bash
 cd_app grafana/bin_sh
@@ -118,14 +134,17 @@ cd_app grafana/bin_sh
 
 Grafana URL: <http://localhost:3000>
 
-From the browser, add the Prometheus datasource if it does not exist.
+From the browser, add a Prometheus datasource for `myhz` clusters if it does not exist.
 
 - Select *Connections/Add new connection* from the left pull-out menu.
 - Search and add `Promtheus` from the *Add new connection* page.
 - Enter the following
 
   Prometheus server URL: <http://localhost:9090>
-- Select *Save & test* at the bottom
+- Select *Save & test* at the bottom.
+- If you have the `wan` clusters running, then add another Prometheus datasource with the following URL. You can use any name.
+  
+  Prometheus server URL: <http://localhost:9091>
 
 Open the **00Main** dashboard.
 
@@ -133,7 +152,7 @@ Open the **00Main** dashboard.
 - Select *Hazelcast*.
 - Select **00Main**.
 
-The **00Main** dashboard is the main (home) dashboard that provides a menu of all available dashaboards. See [Navigating Hazelcast Dashboards](#navigating-hazelcast-dashboards) for dashboard instructions.
+The **00Main** dashboard is the main (home) dashboard that provides a menu of all available dashaboards for displaying a single cluster at a time. From there, you can navigate to **00MainDual** for monitoring two (2) clusters side-by-side and **00MainAll** for monitoring all clusters in federated views. See [Navigating Hazelcast Dashboards](#navigating-hazelcast-dashboards) for dashboard instructions.
 
 ### 5. Simulate workflows
 
@@ -148,6 +167,9 @@ cd_app perf_test/bin_sh
 # myhz2
 ./test_group -run -prop ../etc/group-workflow.properties -cluster myhz2
 
+# myhz3
+./test_group -run -prop ../etc/group-workflow.properties -cluster myhz3
+
 # wan1
 ./test_group -run -prop ../etc/group-workflow.properties -cluster wan1
 
@@ -155,9 +177,19 @@ cd_app perf_test/bin_sh
 ./test_group -run -prop ../etc/group-workflow.properties -cluster wan2
 ```
 
-For testing the included WAN Discovery plugin, run one of the following commands. These commands run indefinitely so that you can monitor the progress from Grafana. 
+To test native memory, use `group-nmap.properties` as follows.
 
-✏️  *You can monitor the WAN Discovery plugin by selecting the **WAN Discovery Plugin** option in the main dashboard.*
+```bash
+# wan1
+./test_group -run -prop ../etc/group-nmap.properties -cluster wan1
+
+# wan2
+./test_group -run -prop ../etc/group-nmap.properties -cluster wan2
+```
+
+To test the included WAN Discovery plugin, run one of the following commands. These commands run indefinitely so that you can monitor the progress from Grafana. 
+
+✏️  *You can monitor the WAN Discovery plugin by selecting the **WAN Discovery Plugin** row in the WAN Replication dashboard.*
 
 ```bash
 cd_app perf_test/bin_sh
@@ -170,7 +202,6 @@ cd_app perf_test/bin_sh
 ./test_group -cluster wan2 -run -prop ../etc/group-mkp.properties
 ./test_group -cluster wan2 -run -prop ../etc/group-mkq.properties
 ```
-
 
 The `perf_test` app supports only the following data structures.
 
@@ -202,6 +233,8 @@ The **System** dashboard tabulates member status and provides two rows of panels
 
 The **Member** dashboard provides two (2) rows of panels: *Resources* and *Data Structures*. The Resources row contains panels for monitoring the selected member's system resources. The Data Structures row contains panels for monitoring the data strcutures that belong to the selected member. You can switch to another member using the *Member* pulldown menu in the toolbar.
 
+The **WAN Replication** dashboard includes the WAN Discolvery Plugin row which contains panels that display the custom metrics published by the WAN discovery plugin maintained by Sorint.lab. This plugin reduces the WAN discovery latency by 1000 folds, significantly increasing the overall performance of each Hazelcast member.
+
 ## Adding/Deleting Clusters
 
 ### Adding a cluster
@@ -224,13 +257,15 @@ Deleting a Hazelcast cluster requires the following steps.
 
 ### Example: Add a new cluster
 
-1. The following command create a cluster named, `myhz3` with the starting port number 6001.
+1. The following command create a cluster named, `myhz4` with the starting port number 6201.
 
 ```bash
-# Create 'myhz3' cluster
-create_cluster -product hazelcast -cluster myhz3 -port 6001
+# Create 'myhz4' cluster
+create_cluster -product hazelcast -cluster myhz4 -port 6201
 
 # By default, the new cluster has two (2) members. The following adds one additional member.
+
+```bash
 add_member
 ```
 
@@ -239,33 +274,33 @@ add_member
 The `create_cluster` command automatically bumps up (or down) the starting port number for Prometheus based on the starting Hazelcast port number. You can get the Prometheus port number by executing `show_cluster -long`.
 
 ```bash
-show_cluster -long -cluster myhz3
+show_cluster -long -cluster myhz4
 ```
 
 Output:
 
 ```console
 ----------------------------------------------------------------
-         CLUSTER: myhz3
-     CLUSTER_DIR: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/bundle-hazelcast-5-cluster-wan-app-granfana/clusters/myhz3
+         CLUSTER: myhz4
+     CLUSTER_DIR: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/bundle-hazelcast-5-cluster-wan-app-granfana/clusters/myhz4
          PRODUCT: hazelcast
     CLUSTER_TYPE: hazelcast
              POD: local
         POD_TYPE: local
 
-01        Member: myhz3-padomac.local-01
+01        Member: myhz4-padomac.local-01
            STATE: Down
              PID: N/A
-     MEMBER_PORT: 6001
-      DEBUG_PORT: 9701
- PROMETHEUS_PORT: 8591
-         JMX_URL: service:jmx:rmi:///jndi/rmi://padomac.local:12501/jmxrmi
-     Working Dir: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/bundle-hazelcast-5-cluster-wan-app-granfana/clusters/myhz3/run/myhz3-padomac.local-01
-        LOG_FILE: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/bundle-hazelcast-5-cluster-wan-app-granfana/clusters/myhz3/log/myhz3-padomac.local-01.log
+     MEMBER_PORT: 6201
+      DEBUG_PORT: 9901
+ PROMETHEUS_PORT: 8791
+         JMX_URL: service:jmx:rmi:///jndi/rmi://padomac.local:12701/jmxrmi
+     Working Dir: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/bundle-hazelcast-5-cluster-wan-app-granfana/clusters/myhz4/run/myhz4-padomac.local-01
+        LOG_FILE: /Users/dpark/Padogrid/workspaces/rwe-hazelcast/bundle-hazelcast-5-cluster-wan-app-granfana/clusters/myhz4/log/myhz4-padomac.local-01.log
 ...
 ```
 
-From the above output we see the first member has the Prometheus port number of 8591. Add the following in `etc/prometheus.yml`.
+From the above output we see the first member has the Prometheus port number of 8791. Add the following in `etc/prometheus.yml`.
 
 ```bash
 cd_app grafana
@@ -277,14 +312,14 @@ Edit `etc/prometheus.yaml`:
 ```yaml
 scrape_configs:
 ...
-  - job_name: 'myhz3'
+  - job_name: 'myhz4'
     scrape_interval: 2s
     static_configs:
     static_configs:
-      - targets: [localhost:8591, localhost:8592, localhost:8593, localhost:8594, localhost:8595, localhost:8596, localhost:8597, localhost:8598, localhost:8599, localhost:8600]
+      - targets: [localhost:8791, localhost:8792, localhost:8793, localhost:8794, localhost:8795, localhost:8796, localhost:8797, localhost:8798, localhost:8799, localhost:8800]
 ```
 
-✏️  *Note that we set the `job_name` attribute to the cluster name, `myhz3`. The dashboard templates filter clusters by the value of this attribute.*
+✏️  *Note that we set the `job_name` attribute to the cluster name, `myhz4`. The dashboard templates filter clusters by the value of this attribute.*
 
 Now, restart Prometheus.
 
@@ -294,37 +329,15 @@ cd_app grafana/bin_sh
 ./start_prometheus
 ```
 
-3. Update Grafana dashboard templates. There are two (2) template folders: `Hazelcast` and `WanDiscovery`. The `Hazelcast` folder contains dashboards that monitor all clusters. The `WanDiscovery` folder monitors only WAN plugin enabled clusters. Let's update them accordingly.
-
-```bash
-cd_app grafana/bin_sh
-./update_cluster_templating -folder Hazelcast -clusters myhz1,myhz2,myhz3,wan1,wan2
-./update_cluster_templating -folder WanDiscovery -clusters wan1,wan2
-```
-
-✏️  *The above commands update the dashboard templates located in the `etc/dashboards` directory.*
-
-4. Import the updated dashboard templates. Note that to import the update dashboard templates, we need to first delete the folders in Grafana.
-
-```bash
-cd_ap grafana/bin_sh
-
-# Frist, delete folders in Grafana
-./delete_folder -folder Hazelcast
-./delete_folder -folder WanDiscovery
-
-# Import the updated dashboard templates
-./import_folder -all
-```
-
-You should now see five (5) clusters in Grafana.
+You should now see six (6) clusters in Grafana.
 
 ## Teardown
 
 ```bash
 # Stop Prometheus and Grafana
-cd_app grafana
-./stop_prometheus
+cd_app grafana/bin_sh
+# '-all' stops both myhz and wan Prometheus instances
+./stop_prometheus -all
 ./stop_granfa
 
 # Stop all clusters in the workspace

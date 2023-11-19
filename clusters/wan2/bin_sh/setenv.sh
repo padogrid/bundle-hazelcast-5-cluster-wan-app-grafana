@@ -5,7 +5,7 @@
 #
 # Set Java options, i.e., -Dproperty=xyz
 #
-#JAVA_OPTS=
+JAVA_OPTS="-Dhazelcast-addon.cp.base-dir=$CLUSTER_DIR/cp-data"
 
 #
 # To use Hibernate backed MapStorePkDbImpl, set the following property and

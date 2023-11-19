@@ -4,7 +4,10 @@
       "list": [
         {
           "builtIn": 1,
-          "datasource": "${DATASOURCE}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
@@ -13,7 +16,7 @@
         }
       ]
     },
-    "editable": true,
+    "editable": false,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
     "links": [
@@ -24,10 +27,10 @@
         "keepTime": true,
         "tags": [],
         "targetBlank": false,
-        "title": "Main",
+        "title": "Charts",
         "tooltip": "",
         "type": "link",
-        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-Cluster=$Cluster&${__url_time_range}"
+        "url": "/d/da6b0ba1-fd16-4ccc-8ed1-e5ea7d51a14b/replicated-maps-rows-charts?$var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
       },
       {
         "asDropdown": false,
@@ -36,10 +39,22 @@
         "keepTime": true,
         "tags": [],
         "targetBlank": false,
-        "title": "Charts",
+        "title": "System",
         "tooltip": "",
         "type": "link",
-        "url": "/d/da6b0ba1-fd16-4ccc-8ed1-e5ea7d51a14b/replicated-maps-rows-charts&${__url_time_range}"
+        "url": "/d/c7d2bda7-2511-40fb-aaa1-c7ca8563b528/system-resources?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
       },
       {
         "asDropdown": true,
@@ -57,21 +72,77 @@
       },
       {
         "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Dual Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c285e20e-3b2a-4108-bc28-69238459027a/00dual-main?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Cluster2=$Cluster2&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
         "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "dual hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Dual Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "All Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/d3a660bb-5588-491e-849b-6e40b6c0de0e/00main-all?${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "all hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "All Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
         "includeVars": false,
         "keepTime": false,
         "tags": [],
-        "targetBlank": true,
-        "title": "Created by PadoGrid",
-        "tooltip": "Go to PadoGrid",
+        "targetBlank": false,
+        "title": "PadoGrid",
+        "tooltip": "About PadoGrid",
         "type": "link",
-        "url": "http://github.com/padogrid"
+        "url": "/d/fdf91a72-5304-4ac4-bb42-9e30f0f0ec11/padogrid${__url_time_range}"
       }
     ],
     "liveNow": false,
     "panels": [
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of entries owned on this member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -85,6 +156,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -120,7 +197,7 @@
                   "value": [
                     {
                       "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -130,6 +207,23 @@
                     "fixedColor": "blue",
                     "mode": "fixed"
                   }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
                 }
               ]
             }
@@ -155,10 +249,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
@@ -213,7 +310,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Memory cost of owned entries on this member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -227,6 +328,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -262,7 +369,7 @@
                   "value": [
                     {
                       "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -274,6 +381,23 @@
                   }
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -283,7 +407,7 @@
           "x": 12,
           "y": 0
         },
-        "id": 4,
+        "id": 15,
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -297,10 +421,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
@@ -355,7 +482,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of hits (reads) of the locally owned entries",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -369,6 +500,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -404,7 +541,7 @@
                   "value": [
                     {
                       "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -416,16 +553,33 @@
                   }
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         "gridPos": {
-          "h": 7,
+          "h": 6,
           "w": 12,
           "x": 0,
           "y": 6
         },
-        "id": 8,
+        "id": 17,
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -439,152 +593,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
-            "editorMode": "code",
-            "exemplar": false,
-            "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
-            "format": "time_series",
-            "instant": true,
-            "legendFormat": "__auto",
-            "range": false,
-            "refId": "A"
-          }
-        ],
-        "title": "Replicated Maps: Events",
-        "transformations": [
-          {
-            "id": "joinByLabels",
-            "options": {
-              "join": [
-                "tag0"
-              ],
-              "value": "instance"
-            }
-          },
-          {
-            "id": "renameByRegex",
-            "options": {
-              "regex": "tag0",
-              "renamePattern": "Map"
-            }
-          },
-          {
-            "id": "sortBy",
-            "options": {
-              "fields": {},
-              "sort": [
-                {
-                  "desc": false,
-                  "field": "Map"
-                }
-              ]
-            }
-          },
-          {
-            "id": "calculateField",
-            "options": {
-              "mode": "reduceRow",
-              "reduce": {
-                "reducer": "sum"
-              },
-              "replaceFields": false
-            }
-          }
-        ],
-        "type": "table"
-      },
-      {
-        "datasource": "${DATASOURCE}",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
             },
-            "custom": {
-              "align": "auto",
-              "cellOptions": {
-                "type": "color-text"
-              },
-              "filterable": true,
-              "inspect": false
-            },
-            "mappings": [
-              {
-                "options": {
-                  "pattern": "^.*(=)(\\w.*).*\"$",
-                  "result": {
-                    "index": 0,
-                    "text": "$2"
-                  }
-                },
-                "type": "regex"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            },
-            "unit": "locale"
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Map"
-              },
-              "properties": [
-                {
-                  "id": "links",
-                  "value": [
-                    {
-                      "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
-                    }
-                  ]
-                },
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "blue",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 12,
-          "x": 12,
-          "y": 6
-        },
-        "id": 9,
-        "options": {
-          "cellHeight": "sm",
-          "footer": {
-            "countRows": false,
-            "fields": "",
-            "reducer": [
-              "sum"
-            ],
-            "show": true
-          },
-          "showHeader": true,
-          "sortBy": []
-        },
-        "pluginVersion": "10.1.1",
-        "targets": [
-          {
-            "datasource": "${DATASOURCE}",
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_hits{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
@@ -639,7 +654,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of events received on this member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -653,6 +672,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -688,7 +713,7 @@
                   "value": [
                     {
                       "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -700,16 +725,33 @@
                   }
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         "gridPos": {
-          "h": 7,
+          "h": 6,
           "w": 12,
-          "x": 0,
-          "y": 13
+          "x": 12,
+          "y": 6
         },
-        "id": 13,
+        "id": 16,
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -723,10 +765,529 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Events",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total number of other operations performed on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Replicated Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 12,
+          "x": 0,
+          "y": 12
+        },
+        "id": 24,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_numberOfOtherOperations{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Other Operations",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total number of operations on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Replicated Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 12,
+          "x": 12,
+          "y": 12
+        },
+        "id": 25,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_total{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Replicated Maps: Total Operations",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of put operations on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Replicated Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 12,
+          "x": 0,
+          "y": 18
+        },
+        "id": 18,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_putCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
@@ -781,7 +1342,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of get operations on this member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -795,6 +1360,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -830,7 +1401,7 @@
                   "value": [
                     {
                       "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -842,16 +1413,33 @@
                   }
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         "gridPos": {
-          "h": 7,
+          "h": 6,
           "w": 12,
           "x": 12,
-          "y": 13
+          "y": 18
         },
-        "id": 12,
+        "id": 19,
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -865,10 +1453,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_getCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
@@ -923,7 +1514,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of remove operations on this member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -937,6 +1532,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -972,7 +1573,7 @@
                   "value": [
                     {
                       "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -984,16 +1585,33 @@
                   }
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         "gridPos": {
-          "h": 7,
+          "h": 6,
           "w": 12,
           "x": 0,
-          "y": 20
+          "y": 24
         },
-        "id": 14,
+        "id": 20,
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -1007,10 +1625,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_removeCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
@@ -1065,11 +1686,15 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total latency of put operations",
         "fieldConfig": {
           "defaults": {
             "color": {
-              "mode": "thresholds"
+              "mode": "continuous-GrYlRd"
             },
             "custom": {
               "align": "auto",
@@ -1079,6 +1704,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -1114,7 +1745,7 @@
                   "value": [
                     {
                       "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -1130,12 +1761,12 @@
           ]
         },
         "gridPos": {
-          "h": 7,
+          "h": 6,
           "w": 12,
           "x": 12,
-          "y": 20
+          "y": 24
         },
-        "id": 7,
+        "id": 22,
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -1144,15 +1775,18 @@
             "reducer": [
               "sum"
             ],
-            "show": true
+            "show": false
           },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_maxPutLatency{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
@@ -1202,16 +1836,30 @@
               },
               "replaceFields": false
             }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Total": true
+              },
+              "indexByName": {},
+              "renameByName": {}
+            }
           }
         ],
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total latency of get operations",
         "fieldConfig": {
           "defaults": {
             "color": {
-              "mode": "thresholds"
+              "mode": "continuous-GrYlRd"
             },
             "custom": {
               "align": "auto",
@@ -1221,6 +1869,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -1256,7 +1910,7 @@
                   "value": [
                     {
                       "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -1268,16 +1922,33 @@
                   }
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=replicatedMap&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         "gridPos": {
-          "h": 7,
+          "h": 6,
           "w": 12,
           "x": 0,
-          "y": 27
+          "y": 30
         },
-        "id": 10,
+        "id": 21,
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -1286,15 +1957,18 @@
             "reducer": [
               "sum"
             ],
-            "show": true
+            "show": false
           },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_maxGetLatency{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
@@ -1344,16 +2018,30 @@
               },
               "replaceFields": false
             }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Total": true
+              },
+              "indexByName": {},
+              "renameByName": {}
+            }
           }
         ],
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total latency of remove operations",
         "fieldConfig": {
           "defaults": {
             "color": {
-              "mode": "thresholds"
+              "mode": "continuous-GrYlRd"
             },
             "custom": {
               "align": "auto",
@@ -1363,6 +2051,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -1398,7 +2092,7 @@
                   "value": [
                     {
                       "title": "Replicated Map Link",
-                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
+                      "url": "/d/dd73acf6-0007-473a-a497-54253d0e7329/replicated-map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=replicatedMap&${__url_time_range}"
                     }
                   ]
                 },
@@ -1414,12 +2108,12 @@
           ]
         },
         "gridPos": {
-          "h": 7,
+          "h": 6,
           "w": 12,
           "x": 12,
-          "y": 27
+          "y": 30
         },
-        "id": 11,
+        "id": 23,
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -1428,15 +2122,18 @@
             "reducer": [
               "sum"
             ],
-            "show": true
+            "show": false
           },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_maxRemoveLatency{$ClusterFilterLabel=\"$Cluster\",prefix=\"replicatedMap\"}",
@@ -1486,6 +2183,16 @@
               },
               "replaceFields": false
             }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Total": true
+              },
+              "indexByName": {},
+              "renameByName": {}
+            }
           }
         ],
         "type": "table"
@@ -1493,7 +2200,6 @@
     ],
     "refresh": "5s",
     "schemaVersion": 38,
-    "style": "dark",
     "tags": [
       "hazelcast",
       "data structure",
@@ -1510,45 +2216,102 @@
           "datasource": "${DATASOURCE}"
         },
         {
-          "current": {
-            "selected": true,
-            "text": "myhz1",
-            "value": "myhz1"
-          },
           "hide": 0,
           "includeAll": false,
+          "label": "Source",
           "multi": false,
-          "name": "Cluster",
-          "options": [
-            {
-              "selected": true,
-              "text": "myhz1",
-              "value": "myhz1"
-            },
-            {
-              "selected": false,
-              "text": "myhz2",
-              "value": "myhz2"
-            },
-            {
-              "selected": false,
-              "text": "wan1",
-              "value": "wan1"
-            },
-            {
-              "selected": false,
-              "text": "wan2",
-              "value": "wan2"
-            }
-          ],
-          "query": "myhz1,myhz2,wan1,wan2",
+          "name": "DataSource",
+          "options": [],
+          "query": "prometheus",
           "queryValue": "",
+          "refresh": 1,
+          "regex": "",
           "skipUrlSync": false,
-          "type": "custom",
-          "datasource": "${DATASOURCE}"
+          "type": "datasource"
         },
         {
-          "datasource": "${DATASOURCE}",
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Cluster",
+          "multi": false,
+          "name": "Cluster",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "hide": 2,
+          "includeAll": false,
+          "label": "Source2",
+          "multi": false,
+          "name": "DataSource2",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource2}"
+          },
+          "definition": "label_values(job)",
+          "hide": 2,
+          "includeAll": false,
+          "label": "Cluster2",
+          "multi": false,
+          "name": "Cluster2",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "filters": [],
           "hide": 0,
           "name": "Filters",

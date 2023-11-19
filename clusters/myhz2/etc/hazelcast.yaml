@@ -90,7 +90,9 @@ hazelcast:
   map:
     map*:
       near-cache:
-        max-idle-seconds: 100
+        max-idle-seconds: 120
+      max-idle-seconds: 120
+      per-entry-stats-enabled: true
 
     # Indexes for nw data
     nw/customers:
@@ -100,7 +102,7 @@ hazelcast:
           attributes:
             - "country"
       near-cache:
-        max-idle-seconds: 100
+        max-idle-seconds: 120
     nw/orders:
       indexes:
         - name: freight
@@ -112,7 +114,7 @@ hazelcast:
           attributes:
             - "shipVia"
       near-cache:
-        max-idle-seconds: 100
+        max-idle-seconds: 120
 
   executor-service:
     hz:query:

@@ -7,16 +7,12 @@ scrape_configs:
   - job_name: 'myhz1'
     scrape_interval: 2s
     static_configs:
-      - targets: [localhost:8191, localhost:8192, localhost:8193, localhost:8194, localhost:8195, localhost:8196, localhost:8197, localhost:8198, localhost:8199, localhost:8200]
+      - targets: [localhost:8291, localhost:8292, localhost:8293, localhost:8294, localhost:8295, localhost:8296, localhost:8297, localhost:8298, localhost:8299, localhost:8300]
   - job_name: 'myhz2'
     scrape_interval: 2s
     static_configs:
-      - targets: [localhost:8291, localhost:8292, localhost:8293, localhost:8294, localhost:8295, localhost:8296, localhost:8297, localhost:8298, localhost:8299, localhost:8300]
-  - job_name: 'wan1'
-    scrape_interval: 2s
-    static_configs:
       - targets: [localhost:8391, localhost:8392, localhost:8393, localhost:8394, localhost:8395, localhost:8396, localhost:8397, localhost:8398, localhost:8399, localhost:8400]
-  - job_name: 'wan2'
+  - job_name: 'myhz3'
     scrape_interval: 2s
     static_configs:
       - targets: [localhost:8491, localhost:8492, localhost:8493, localhost:8494, localhost:8495, localhost:8496, localhost:8497, localhost:8498, localhost:8499, localhost:8500]

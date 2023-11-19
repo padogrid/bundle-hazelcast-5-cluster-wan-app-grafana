@@ -4,7 +4,10 @@
       "list": [
         {
           "builtIn": 1,
-          "datasource": "${DATASOURCE}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
@@ -14,7 +17,7 @@
       ]
     },
     "description": "",
-    "editable": true,
+    "editable": false,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
     "links": [
@@ -28,7 +31,7 @@
         "title": "Main",
         "tooltip": "",
         "type": "link",
-        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-Cluster=$Cluster&${__url_time_range}"
+        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
       },
       {
         "asDropdown": true,
@@ -46,21 +49,77 @@
       },
       {
         "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Dual Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c285e20e-3b2a-4108-bc28-69238459027a/00dual-main?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Cluster2=$Cluster2&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
         "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "dual hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Dual Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "All Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/d3a660bb-5588-491e-849b-6e40b6c0de0e/00main-all?${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "all hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "All Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
         "includeVars": false,
         "keepTime": false,
         "tags": [],
-        "targetBlank": true,
-        "title": "Created by PadoGrid",
-        "tooltip": "Go to PadoGrid",
+        "targetBlank": false,
+        "title": "PadoGrid",
+        "tooltip": "About PadoGrid",
         "type": "link",
-        "url": "http://github.com/padogrid"
+        "url": "/d/fdf91a72-5304-4ac4-bb42-9e30f0f0ec11/padogrid${__url_time_range}"
       }
     ],
     "liveNow": false,
     "panels": [
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Cluster up time determined by the oldest member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -101,10 +160,13 @@
           },
           "textMode": "auto"
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "max(com_hazelcast_Metrics_clusterUpTime{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -118,7 +180,11 @@
         "type": "stat"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Cluster member resource overview",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -257,7 +323,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 }
@@ -290,10 +356,13 @@
             }
           ]
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_systemCpuLoad{$ClusterFilterLabel=\"$Cluster\"}",
@@ -305,7 +374,10 @@
             "refId": "CPU"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_usedMemory{$ClusterFilterLabel=\"$Cluster\"}",
@@ -317,7 +389,10 @@
             "refId": "Used Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalMemory{$ClusterFilterLabel=\"$Cluster\"}",
@@ -329,7 +404,10 @@
             "refId": "Total Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_usedMemory/com_hazelcast_Metrics_totalMemory{$ClusterFilterLabel=\"$Cluster\"}",
@@ -341,7 +419,10 @@
             "refId": "Heap Usage"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_usedNative{$ClusterFilterLabel=\"$Cluster\"}",
@@ -353,7 +434,10 @@
             "refId": "Used Native Memory"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_committedNative{$ClusterFilterLabel=\"$Cluster\"}",
@@ -365,7 +449,10 @@
             "refId": "Committed Native Memory"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "jvm_gc_collection_seconds_count{$ClusterFilterLabel=\"$Cluster\",gc=~\".+Old Generation\"}",
@@ -377,7 +464,10 @@
             "refId": "GC Major Count"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "jvm_gc_collection_seconds_sum{$ClusterFilterLabel=\"$Cluster\",gc=~\".+Old Generation\"}",
@@ -389,7 +479,10 @@
             "refId": "GC Major Time"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "jvm_gc_collection_seconds_count{$ClusterFilterLabel=\"$Cluster\",gc=~\".+Young Generation\"}",
@@ -401,7 +494,10 @@
             "refId": "GC Minor Count"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "jvm_gc_collection_seconds_sum{$ClusterFilterLabel=\"$Cluster\",gc=~\".+Young Generation\"}",
@@ -468,7 +564,10 @@
       },
       {
         "collapsed": false,
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "gridPos": {
           "h": 1,
           "w": 24,
@@ -481,7 +580,11 @@
         "type": "row"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Free vs. used memory: sum of all member memories",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -508,7 +611,7 @@
                   "id": "color",
                   "value": {
                     "fixedColor": "red",
-                    "mode": "fixed"
+                    "mode": "palette-classic"
                   }
                 }
               ]
@@ -523,10 +626,16 @@
         },
         "id": 10,
         "options": {
+          "displayLabels": [
+            "name",
+            "value",
+            "percent"
+          ],
           "legend": {
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": true
+            "showLegend": false,
+            "values": []
           },
           "pieType": "pie",
           "reduceOptions": {
@@ -543,18 +652,38 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "sum(com_hazelcast_Metrics_usedMemory{$ClusterFilterLabel=\"$Cluster\"})",
+            "expr": "sum(com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
             "instant": true,
-            "legendFormat": "Used Memory",
+            "legendFormat": "Map Memory",
             "range": false,
-            "refId": "Used Memory"
+            "refId": "Map Memory"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "sum(com_hazelcast_Metrics_usedMemory{$ClusterFilterLabel=\"$Cluster\"})-sum(com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\"})",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Other Used Memory",
+            "range": false,
+            "refId": "Other Used Memory"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "sum(com_hazelcast_Metrics_freeMemory{$ClusterFilterLabel=\"$Cluster\"})",
@@ -569,7 +698,11 @@
         "type": "piechart"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of partitions per member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -603,6 +736,7 @@
           "displayMode": "lcd",
           "minVizHeight": 10,
           "minVizWidth": 0,
+          "namePlacement": "auto",
           "orientation": "horizontal",
           "reduceOptions": {
             "calcs": [
@@ -614,10 +748,13 @@
           "showUnfilled": true,
           "valueMode": "color"
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_localPartitionCount{$ClusterFilterLabel=\"$Cluster\"}",
@@ -628,7 +765,10 @@
             "refId": "B"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "max(com_hazelcast_Metrics_partitionCount{$ClusterFilterLabel=\"$Cluster\"})",
@@ -643,13 +783,18 @@
         "type": "bargauge"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: GC minor and major count of the member with the highest value",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -719,7 +864,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "max(jvm_gc_collection_seconds_count{$ClusterFilterLabel=\"$Cluster\",gc=~\".+Young Generation\"})",
             "hide": false,
@@ -729,7 +877,10 @@
             "refId": "GC Minor"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "max(jvm_gc_collection_seconds_count{$ClusterFilterLabel=\"$Cluster\",gc=~\".+Old Generation\"})",
             "instant": false,
@@ -738,17 +889,22 @@
             "refId": "GC Max"
           }
         ],
-        "title": "GC Count: Minor, Major (Aggregate)",
+        "title": "Max GC Count: Minor, Major (Aggregate)",
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: System CPU load of the member with the highest value",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -818,7 +974,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "max(com_hazelcast_Metrics_systemCpuLoad{$ClusterFilterLabel=\"$Cluster\"})",
             "instant": false,
@@ -831,13 +990,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Sum of all member heap memories",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -907,7 +1071,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_usedHeap{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -917,7 +1084,23 @@
             "refId": "Used Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "sum(com_hazelcast_Metrics_committedHeap{$ClusterFilterLabel=\"$Cluster\"})",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Committed Heap",
+            "range": true,
+            "refId": "Comitted Heap"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_freeHeap{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -927,7 +1110,10 @@
             "refId": "Free Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_maxHeap{$ClusterFilterLabel=\"$Cluster\"})",
             "instant": false,
@@ -940,13 +1126,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Sum of all member used heap memories",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -1016,7 +1207,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_usedHeap{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -1030,13 +1224,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Sum of all member used native memories",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -1106,26 +1305,73 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_usedNative{$ClusterFilterLabel=\"$Cluster\"})",
             "instant": false,
-            "legendFormat": "{{instance}}",
+            "legendFormat": "Used Native",
             "range": true,
             "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "sum(com_hazelcast_Metrics_committedNative{$ClusterFilterLabel=\"$Cluster\"})",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Committed Native",
+            "range": true,
+            "refId": "B"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "sum(com_hazelcast_Metrics_freeNative{$ClusterFilterLabel=\"$Cluster\"})",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Free Native",
+            "range": true,
+            "refId": "C"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "expr": "sum(com_hazelcast_Metrics_maxNative{$ClusterFilterLabel=\"$Cluster\"})",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Max Native",
+            "range": true,
+            "refId": "D"
           }
         ],
         "title": "Used Native (Aggregate)",
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Physical memory of the member with the highest value",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -1195,7 +1441,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "max(com_hazelcast_Metrics_freePhysical{$ClusterFilterLabel=\"$Cluster\"})",
@@ -1206,7 +1455,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "max(com_hazelcast_Metrics_totalPhysicalMemorySize{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -1220,13 +1472,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Sum of all member threads",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -1295,7 +1552,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_threadCount{$ClusterFilterLabel=\"$Cluster\"})",
             "instant": false,
@@ -1304,7 +1564,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_peakThreadCount{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -1314,7 +1577,10 @@
             "refId": "B"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_daemonThreadCount{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -1328,13 +1594,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Sum of all member committed heap memories",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -1404,7 +1675,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "sum(com_hazelcast_Metrics_committedHeap{$ClusterFilterLabel=\"$Cluster\"})",
@@ -1415,7 +1689,10 @@
             "refId": "Committed Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_committedNative{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -1425,7 +1702,10 @@
             "refId": "Committed Native"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_committedVirtualMemorySize{$ClusterFilterLabel=\"$Cluster\"})",
             "instant": false,
@@ -1438,13 +1718,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Sum of all member owned entry memory costs",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -1514,7 +1799,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -1524,7 +1812,10 @@
             "refId": "Primary"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_backupEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -1538,13 +1829,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Sum of all member free swap space sizes",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -1614,7 +1910,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_freeSwapSpaceSize{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -1624,7 +1923,10 @@
             "refId": "Free"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "sum(com_hazelcast_Metrics_totalSwapSpaceSize{$ClusterFilterLabel=\"$Cluster\"})",
             "instant": false,
@@ -1637,13 +1939,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Open filed descriptor count of the member with the highest value",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -1712,7 +2019,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "max(com_hazelcast_Metrics_openFileDescriptorCount{$ClusterFilterLabel=\"$Cluster\"})",
             "hide": false,
@@ -1722,7 +2032,10 @@
             "refId": "Open"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "max(com_hazelcast_Metrics_maxFileDescriptorCount{$ClusterFilterLabel=\"$Cluster\"})",
             "instant": false,
@@ -1736,7 +2049,10 @@
       },
       {
         "collapsed": false,
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
         "gridPos": {
           "h": 1,
           "w": 24,
@@ -1749,7 +2065,11 @@
         "type": "row"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Free memory per member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1792,8 +2112,8 @@
         "id": 9,
         "options": {
           "legend": {
-            "displayMode": "list",
-            "placement": "bottom",
+            "displayMode": "table",
+            "placement": "right",
             "showLegend": true
           },
           "pieType": "pie",
@@ -1811,7 +2131,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_freeMemory{$ClusterFilterLabel=\"$Cluster\"}",
@@ -1826,7 +2149,11 @@
         "type": "piechart"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Partition count per member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1869,8 +2196,8 @@
         "id": 8,
         "options": {
           "legend": {
-            "displayMode": "list",
-            "placement": "bottom",
+            "displayMode": "table",
+            "placement": "right",
             "showLegend": true
           },
           "pieType": "pie",
@@ -1888,7 +2215,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_localPartitionCount{$ClusterFilterLabel=\"$Cluster\"}",
@@ -1903,13 +2233,18 @@
         "type": "piechart"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: GC minor and major count of each member",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -1979,7 +2314,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "jvm_gc_collection_seconds_count{$ClusterFilterLabel=\"$Cluster\",gc=~\".+Young Generation\"}",
             "hide": false,
@@ -1989,7 +2327,10 @@
             "refId": "GC Minor"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "jvm_gc_collection_seconds_count{$ClusterFilterLabel=\"$Cluster\",gc=~\".+Old Generation\"}",
             "instant": false,
@@ -2002,13 +2343,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: System CPU load of each member",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -2078,7 +2424,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_systemCpuLoad{$ClusterFilterLabel=\"$Cluster\"}",
             "instant": false,
@@ -2091,13 +2440,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Heap memory of each member",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -2167,7 +2521,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_usedHeap{$ClusterFilterLabel=\"$Cluster\"}",
             "hide": false,
@@ -2177,7 +2534,10 @@
             "refId": "Used Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_freeHeap{$ClusterFilterLabel=\"$Cluster\"}",
             "hide": false,
@@ -2187,7 +2547,10 @@
             "refId": "Free Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_maxHeap{$ClusterFilterLabel=\"$Cluster\"}",
             "instant": false,
@@ -2200,13 +2563,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Used heap memory of each member",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -2276,7 +2644,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_usedHeap{$ClusterFilterLabel=\"$Cluster\"}",
             "hide": false,
@@ -2290,13 +2661,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Used native memory of each member",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -2366,7 +2742,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_usedNative{$ClusterFilterLabel=\"$Cluster\"}",
             "instant": false,
@@ -2379,13 +2758,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Physical memory of each member",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -2455,7 +2839,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_freePhysical{$ClusterFilterLabel=\"$Cluster\"}",
@@ -2466,7 +2853,10 @@
             "refId": "Committed Heap"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_totalPhysicalMemorySize{$ClusterFilterLabel=\"$Cluster\"}",
             "hide": false,
@@ -2480,13 +2870,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Thread count of each member",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -2555,7 +2950,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_threadCount{$ClusterFilterLabel=\"$Cluster\"}",
             "instant": false,
@@ -2564,7 +2962,10 @@
             "refId": "A"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_peakThreadCount{$ClusterFilterLabel=\"$Cluster\"}",
             "hide": false,
@@ -2574,7 +2975,10 @@
             "refId": "B"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_daemonThreadCount{$ClusterFilterLabel=\"$Cluster\"}",
             "hide": false,
@@ -2588,13 +2992,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Swap space size of each member",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -2630,7 +3039,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -2663,7 +3073,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_freeSwapSpaceSize{$ClusterFilterLabel=\"$Cluster\"}",
             "hide": false,
@@ -2673,7 +3086,10 @@
             "refId": "Free"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_totalSwapSpaceSize{$ClusterFilterLabel=\"$Cluster\"}",
             "instant": false,
@@ -2686,13 +3102,18 @@
         "type": "timeseries"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of open and max file descriptors per member",
         "fieldConfig": {
           "defaults": {
             "color": {
               "mode": "palette-classic"
             },
             "custom": {
+              "axisBorderShow": false,
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
@@ -2728,7 +3149,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -2760,7 +3182,10 @@
         },
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_openFileDescriptorCount{$ClusterFilterLabel=\"$Cluster\"}",
             "hide": false,
@@ -2770,7 +3195,10 @@
             "refId": "Open"
           },
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "expr": "com_hazelcast_Metrics_maxFileDescriptorCount{$ClusterFilterLabel=\"$Cluster\"}",
             "instant": false,
@@ -2785,7 +3213,6 @@
     ],
     "refresh": "5s",
     "schemaVersion": 38,
-    "style": "dark",
     "tags": [
       "hazelcast",
       "resources",
@@ -2807,45 +3234,102 @@
           "datasource": "${DATASOURCE}"
         },
         {
-          "current": {
-            "selected": true,
-            "text": "myhz1",
-            "value": "myhz1"
-          },
           "hide": 0,
           "includeAll": false,
+          "label": "Source",
           "multi": false,
-          "name": "Cluster",
-          "options": [
-            {
-              "selected": true,
-              "text": "myhz1",
-              "value": "myhz1"
-            },
-            {
-              "selected": false,
-              "text": "myhz2",
-              "value": "myhz2"
-            },
-            {
-              "selected": false,
-              "text": "wan1",
-              "value": "wan1"
-            },
-            {
-              "selected": false,
-              "text": "wan2",
-              "value": "wan2"
-            }
-          ],
-          "query": "myhz1,myhz2,wan1,wan2",
+          "name": "DataSource",
+          "options": [],
+          "query": "prometheus",
           "queryValue": "",
+          "refresh": 1,
+          "regex": "",
           "skipUrlSync": false,
-          "type": "custom",
-          "datasource": "${DATASOURCE}"
+          "type": "datasource"
         },
         {
-          "datasource": "${DATASOURCE}",
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Cluster",
+          "multi": false,
+          "name": "Cluster",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "hide": 2,
+          "includeAll": false,
+          "label": "Source2",
+          "multi": false,
+          "name": "DataSource2",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource2}"
+          },
+          "definition": "label_values(job)",
+          "hide": 2,
+          "includeAll": false,
+          "label": "Cluster2",
+          "multi": false,
+          "name": "Cluster2",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "filters": [],
           "hide": 0,
           "name": "Filters",

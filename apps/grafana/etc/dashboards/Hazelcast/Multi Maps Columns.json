@@ -4,7 +4,10 @@
       "list": [
         {
           "builtIn": 1,
-          "datasource": "${DATASOURCE}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
@@ -13,7 +16,7 @@
         }
       ]
     },
-    "editable": true,
+    "editable": false,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
     "links": [
@@ -24,10 +27,10 @@
         "keepTime": true,
         "tags": [],
         "targetBlank": false,
-        "title": "Main",
+        "title": "Charts",
         "tooltip": "",
         "type": "link",
-        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-Cluster=$Cluster&${__url_time_range}"
+        "url": "/d/b723efc3-306f-4f63-b195-2dc75fdef00d/multi-maps-columns-charts?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
       },
       {
         "asDropdown": false,
@@ -36,10 +39,22 @@
         "keepTime": true,
         "tags": [],
         "targetBlank": false,
-        "title": "Charts",
+        "title": "System",
         "tooltip": "",
         "type": "link",
-        "url": "/d/b723efc3-306f-4f63-b195-2dc75fdef00d/multi-maps-columns-charts&${__url_time_range}"
+        "url": "/d/c7d2bda7-2511-40fb-aaa1-c7ca8563b528/system-resources?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
       },
       {
         "asDropdown": true,
@@ -57,21 +72,77 @@
       },
       {
         "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Dual Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c285e20e-3b2a-4108-bc28-69238459027a/00dual-main?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Cluster2=$Cluster2&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
         "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "dual hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Dual Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "All Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/d3a660bb-5588-491e-849b-6e40b6c0de0e/00main-all?${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "all hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "All Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
         "includeVars": false,
         "keepTime": false,
         "tags": [],
-        "targetBlank": true,
-        "title": "Created by PadoGrid",
-        "tooltip": "Go to PadoGrid",
+        "targetBlank": false,
+        "title": "PadoGrid",
+        "tooltip": "About PadoGrid",
         "type": "link",
-        "url": "http://github.com/padogrid"
+        "url": "/d/fdf91a72-5304-4ac4-bb42-9e30f0f0ec11/padogrid${__url_time_range}"
       }
     ],
     "liveNow": false,
     "panels": [
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of multimap entries owned by the member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -108,7 +179,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -143,10 +214,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
@@ -229,7 +303,176 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of backup entries held by the member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 19,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_backupEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps: Backup Entries",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Memory cost of owned multimap entries on this member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -266,7 +509,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -284,8 +527,8 @@
         "gridPos": {
           "h": 7,
           "w": 12,
-          "x": 12,
-          "y": 0
+          "x": 0,
+          "y": 7
         },
         "id": 2,
         "options": {
@@ -301,10 +544,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
@@ -387,7 +633,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Memory cost of backup entries in this member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -407,14 +657,10 @@
                 {
                   "color": "green",
                   "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
                 }
               ]
             },
-            "unit": "locale"
+            "unit": "bytes"
           },
           "overrides": [
             {
@@ -428,7 +674,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -446,10 +692,10 @@
         "gridPos": {
           "h": 7,
           "w": 12,
-          "x": 0,
+          "x": 12,
           "y": 7
         },
-        "id": 8,
+        "id": 20,
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -463,13 +709,16 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "expr": "com_hazelcast_Metrics_backupEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
             "format": "time_series",
             "instant": true,
             "legendFormat": "__auto",
@@ -477,7 +726,7 @@
             "refId": "A"
           }
         ],
-        "title": "MUlti Maps: Events",
+        "title": "Multi Maps: Backup Memory",
         "transformations": [
           {
             "id": "joinByLabels",
@@ -549,7 +798,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of hits (reads) of the locally owned entries",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -586,7 +839,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -604,8 +857,8 @@
         "gridPos": {
           "h": 7,
           "w": 12,
-          "x": 12,
-          "y": 7
+          "x": 0,
+          "y": 14
         },
         "id": 9,
         "options": {
@@ -622,10 +875,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_hits{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
@@ -708,7 +964,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of local events received",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -728,165 +988,10 @@
                 {
                   "color": "green",
                   "value": null
-                }
-              ]
-            },
-            "unit": "locale"
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Member"
-              },
-              "properties": [
-                {
-                  "id": "links",
-                  "value": [
-                    {
-                      "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
-                    }
-                  ]
                 },
                 {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "blue",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 7,
-          "w": 12,
-          "x": 0,
-          "y": 14
-        },
-        "id": 12,
-        "options": {
-          "cellHeight": "sm",
-          "footer": {
-            "countRows": false,
-            "enablePagination": false,
-            "fields": "",
-            "reducer": [
-              "sum"
-            ],
-            "show": true
-          },
-          "showHeader": true,
-          "sortBy": []
-        },
-        "pluginVersion": "10.1.1",
-        "targets": [
-          {
-            "datasource": "${DATASOURCE}",
-            "editorMode": "code",
-            "exemplar": false,
-            "expr": "com_hazelcast_Metrics_putCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
-            "format": "time_series",
-            "instant": true,
-            "legendFormat": "__auto",
-            "range": false,
-            "refId": "A"
-          }
-        ],
-        "title": "Multi Maps: Put Count",
-        "transformations": [
-          {
-            "id": "joinByLabels",
-            "options": {
-              "join": [
-                "instance"
-              ],
-              "value": "tag0"
-            }
-          },
-          {
-            "id": "renameByRegex",
-            "options": {
-              "regex": "instance",
-              "renamePattern": "Member"
-            }
-          },
-          {
-            "id": "filterFieldsByName",
-            "options": {
-              "include": {
-                "names": [
-                  "\"name=eligibility\"",
-                  "\"name=map1\"",
-                  "\"name=map2\"",
-                  "\"name=profile\"",
-                  "\"name=summary\"",
-                  "Member"
-                ],
-                "pattern": "(.*=[a-zA-Z0-9].*)"
-              }
-            }
-          },
-          {
-            "id": "calculateField",
-            "options": {
-              "mode": "reduceRow",
-              "reduce": {
-                "include": [
-                  "\"name=eligibility\"",
-                  "\"name=map1\"",
-                  "\"name=map2\"",
-                  "\"name=profile\"",
-                  "\"name=summary\""
-                ],
-                "reducer": "sum"
-              }
-            }
-          },
-          {
-            "id": "sortBy",
-            "options": {
-              "fields": {},
-              "sort": [
-                {
-                  "field": "Member"
-                }
-              ]
-            }
-          },
-          {
-            "id": "renameByRegex",
-            "options": {
-              "regex": "^.*(=)(\\w.*).*\"$",
-              "renamePattern": "$2"
-            }
-          }
-        ],
-        "type": "table"
-      },
-      {
-        "datasource": "${DATASOURCE}",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "align": "auto",
-              "cellOptions": {
-                "type": "color-text"
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
+                  "color": "red",
+                  "value": 80
                 }
               ]
             },
@@ -904,7 +1009,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -925,12 +1030,11 @@
           "x": 12,
           "y": 14
         },
-        "id": 11,
+        "id": 8,
         "options": {
           "cellHeight": "sm",
           "footer": {
             "countRows": false,
-            "enablePagination": false,
             "fields": "",
             "reducer": [
               "sum"
@@ -940,13 +1044,16 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "com_hazelcast_Metrics_getCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
             "format": "time_series",
             "instant": true,
             "legendFormat": "__auto",
@@ -954,7 +1061,7 @@
             "refId": "A"
           }
         ],
-        "title": "Multi Maps: Get Count",
+        "title": "MUlti Maps: Events",
         "transformations": [
           {
             "id": "joinByLabels",
@@ -1026,7 +1133,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of expirations happened on locally owned entries, backups are not included",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1063,7 +1174,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -1084,6 +1195,338 @@
           "x": 0,
           "y": 21
         },
+        "id": 21,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_expirationCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps: Expirations",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of evictions happened on locally owned entries, backups are not included",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 12,
+          "y": 21
+        },
+        "id": 22,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_evictionCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps: Evictions",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of local queries executed on the multimap (it may be imprecise for queries involving partition predicates (PartitionPredicate) on the off-heap storage)",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 0,
+          "y": 28
+        },
         "id": 18,
         "options": {
           "cellHeight": "sm",
@@ -1099,10 +1542,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_queryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
@@ -1185,7 +1631,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total number of indexed local queries performed on the multimap",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1222,7 +1672,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -1241,7 +1691,1340 @@
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 21
+          "y": 28
+        },
+        "id": 23,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_indexedQueryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps: Indexed Query Count",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total number of other operations performed on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 0,
+          "y": 35
+        },
+        "id": 24,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_numberOfOtherOperations{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps: Other Operations",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total heap cost of the Merkle trees used",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 12,
+          "y": 35
+        },
+        "id": 25,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_merkleTreesCost{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps:  Merkle Trees Used Heap (WAN)",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of locked entries that the member owns",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 0,
+          "y": 42
+        },
+        "id": 26,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": false,
+              "displayName": "mmap2"
+            }
+          ]
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_lockedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps: Locked Entries",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of updated but not persisted yet entries, dirty entries, that the member owns",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 12,
+          "y": 42
+        },
+        "id": 27,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_dirtyEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps: Dirty Entries",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of local put operations on the multimap",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 0,
+          "y": 49
+        },
+        "id": 12,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_putCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps: Put Count",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of local set operations on the multimap",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 12,
+          "y": 49
+        },
+        "id": 11,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_setCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps: Set Count",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of local get operations on the multimap",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 0,
+          "y": 56
+        },
+        "id": 28,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_getCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Multi Maps: Get Count",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "instance"
+              ],
+              "value": "tag0"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "instance",
+              "renamePattern": "Member"
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\"",
+                  "Member"
+                ],
+                "pattern": "(.*=[a-zA-Z0-9].*)"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "\"name=eligibility\"",
+                  "\"name=map1\"",
+                  "\"name=map2\"",
+                  "\"name=profile\"",
+                  "\"name=summary\""
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "Member"
+                }
+              ]
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "^.*(=)(\\w.*).*\"$",
+              "renamePattern": "$2"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of local remove operations on the multimap",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Member"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Member Link",
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 12,
+          "y": 56
         },
         "id": 13,
         "options": {
@@ -1258,10 +3041,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_removeCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
@@ -1344,7 +3130,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Maximum latency of local put operations",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1385,7 +3175,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -1404,7 +3194,7 @@
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 28
+          "y": 63
         },
         "id": 14,
         "options": {
@@ -1415,15 +3205,18 @@
             "reducer": [
               "sum"
             ],
-            "show": true
+            "show": false
           },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalPutLatency{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
@@ -1501,12 +3294,26 @@
               "regex": "^.*(=)(\\w.*).*\"$",
               "renamePattern": "$2"
             }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Total": true
+              },
+              "indexByName": {},
+              "renameByName": {}
+            }
           }
         ],
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Maximum latency of local set operations",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1547,7 +3354,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -1566,7 +3373,7 @@
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 28
+          "y": 63
         },
         "id": 17,
         "options": {
@@ -1577,15 +3384,18 @@
             "reducer": [
               "sum"
             ],
-            "show": true
+            "show": false
           },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalSetLatency{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
@@ -1663,12 +3473,26 @@
               "regex": "^.*(=)(\\w.*).*\"$",
               "renamePattern": "$2"
             }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Total": true
+              },
+              "indexByName": {},
+              "renameByName": {}
+            }
           }
         ],
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Maximum latency of local get operations",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1709,7 +3533,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -1728,7 +3552,7 @@
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 35
+          "y": 70
         },
         "id": 15,
         "options": {
@@ -1739,15 +3563,18 @@
             "reducer": [
               "sum"
             ],
-            "show": true
+            "show": false
           },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalGetLatency{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
@@ -1825,12 +3652,26 @@
               "regex": "^.*(=)(\\w.*).*\"$",
               "renamePattern": "$2"
             }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Total": true
+              },
+              "indexByName": {},
+              "renameByName": {}
+            }
           }
         ],
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Maximum latency of local remove operations",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1871,7 +3712,7 @@
                   "value": [
                     {
                       "title": "Member Link",
-                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
+                      "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?orgId=1&refresh=5s&var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__value.raw}&${__url_time_range}"
                     }
                   ]
                 },
@@ -1890,7 +3731,7 @@
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 35
+          "y": 70
         },
         "id": 16,
         "options": {
@@ -1901,15 +3742,18 @@
             "reducer": [
               "sum"
             ],
-            "show": true
+            "show": false
           },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_totalRemoveLatency{$ClusterFilterLabel=\"$Cluster\",prefix=\"multiMap\"}",
@@ -1987,6 +3831,16 @@
               "regex": "^.*(=)(\\w.*).*\"$",
               "renamePattern": "$2"
             }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Total": true
+              },
+              "indexByName": {},
+              "renameByName": {}
+            }
           }
         ],
         "type": "table"
@@ -1994,7 +3848,6 @@
     ],
     "refresh": "5s",
     "schemaVersion": 38,
-    "style": "dark",
     "tags": [
       "hazelcast",
       "data structure",
@@ -2011,45 +3864,102 @@
           "datasource": "${DATASOURCE}"
         },
         {
-          "current": {
-            "selected": true,
-            "text": "myhz1",
-            "value": "myhz1"
-          },
           "hide": 0,
           "includeAll": false,
+          "label": "Source",
           "multi": false,
-          "name": "Cluster",
-          "options": [
-            {
-              "selected": true,
-              "text": "myhz1",
-              "value": "myhz1"
-            },
-            {
-              "selected": false,
-              "text": "myhz2",
-              "value": "myhz2"
-            },
-            {
-              "selected": false,
-              "text": "wan1",
-              "value": "wan1"
-            },
-            {
-              "selected": false,
-              "text": "wan2",
-              "value": "wan2"
-            }
-          ],
-          "query": "myhz1,myhz2,wan1,wan2",
+          "name": "DataSource",
+          "options": [],
+          "query": "prometheus",
           "queryValue": "",
+          "refresh": 1,
+          "regex": "",
           "skipUrlSync": false,
-          "type": "custom",
-          "datasource": "${DATASOURCE}"
+          "type": "datasource"
         },
         {
-          "datasource": "${DATASOURCE}",
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Cluster",
+          "multi": false,
+          "name": "Cluster",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "hide": 2,
+          "includeAll": false,
+          "label": "Source2",
+          "multi": false,
+          "name": "DataSource2",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource2}"
+          },
+          "definition": "label_values(job)",
+          "hide": 2,
+          "includeAll": false,
+          "label": "Cluster2",
+          "multi": false,
+          "name": "Cluster2",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "filters": [],
           "hide": 0,
           "name": "Filters",

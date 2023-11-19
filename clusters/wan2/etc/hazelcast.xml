@@ -53,7 +53,7 @@ IMPORTANT:
       <property name="hazelcast.addon.ipdiscoveryservice.service-delay-in-msec">30000</property>
       <property name="hazelcast.addon.ipdiscoveryservice.connection-timeout-in-msec">200</property>
       <property name="hazelcast.addon.ipdiscoveryservice.read-timeout-in-msec">200</property>
-      <property name="hazelcast.addon.ipdiscoveryservice.jmx-use-hazelcast-object-name">false</property>
+      <property name="hazelcast.addon.ipdiscoveryservice.jmx-use-hazelcast-object-name">true</property>
    </properties>
    <listeners>
       <!-- IpDiscoveryInitializer is invoked during bootstrap to eagerly conducts
@@ -101,7 +101,27 @@ IMPORTANT:
       <socket-interceptor enabled="false" />
    </network>
 
+   <native-memory enabled="true">
+		<size unit="MEGABYTES" value="512" />
+	</native-memory>
+
+   <map name="nmap*">
+		<in-memory-format>NATIVE</in-memory-format>
+		<eviction eviction-policy="LRU" max-size-policy="FREE_NATIVE_MEMORY_PERCENTAGE" size="20" />
+		<per-entry-stats-enabled>true</per-entry-stats-enabled>
+		<merkle-tree enabled="true">
+			<depth>10</depth>
+		</merkle-tree>
+		<wan-replication-ref name="to-wan1-custom">
+			<merge-policy-class-name>LatestUpdateMergePolicy</merge-policy-class-name>
+		</wan-replication-ref>
+	</map>
+
    <map name="map*">
+      <max-idle-seconds>120</max-idle-seconds>
+		<near-cache>
+			<max-idle-seconds>120</max-idle-seconds>
+		</near-cache>
       <per-entry-stats-enabled>true</per-entry-stats-enabled>
       <wan-replication-ref name="to-wan1-maps">
          <merge-policy-class-name>LatestUpdateMergePolicy</merge-policy-class-name>
@@ -136,7 +156,7 @@ IMPORTANT:
          </index>
       </indexes>
       <near-cache name="customers">
-         <max-idle-seconds>100</max-idle-seconds>
+         <max-idle-seconds>120</max-idle-seconds>
       </near-cache>
    </map>
    <map name="nw/orders">
@@ -153,13 +173,14 @@ IMPORTANT:
          </index>
       </indexes>
       <near-cache name="orders">
-         <max-idle-seconds>100</max-idle-seconds>
+         <max-idle-seconds>120</max-idle-seconds>
       </near-cache>
    </map>
 
    <map name="mk*">
       <eviction eviction-policy="LRU" max-size-policy="FREE_HEAP_PERCENTAGE" size="20" />
-      <max-idle-seconds>3600</max-idle-seconds>
+      <!-- 5 min idle time -->
+      <max-idle-seconds>300</max-idle-seconds>
       <merkle-tree enabled="true">
          <depth>10</depth>
       </merkle-tree>
@@ -173,7 +194,7 @@ IMPORTANT:
       <batch-publisher>
          <cluster-name>wan1</cluster-name>
 			<publisher-id>maps</publisher-id>
-			<target-endpoints>localhost:5801,localhost:5802,localhost:5803</target-endpoints>
+			<target-endpoints>localhost:6001,localhost:6002,localhost:6003</target-endpoints>
       </batch-publisher>
    </wan-replication>
 
@@ -181,14 +202,14 @@ IMPORTANT:
       <batch-publisher>
          <cluster-name>wan1</cluster-name>
 			<publisher-id>transactions</publisher-id>
-			<target-endpoints>localhost:5801,localhost:5802,localhost:5803</target-endpoints>
+			<target-endpoints>localhost:6001,localhost:6002,localhost:6003</target-endpoints>
       </batch-publisher>
    </wan-replication>
 
    <wan-replication name="to-wan1-custom">
       <batch-publisher>
          <cluster-name>wan1</cluster-name>
-		 <publisher-id>custom</publisher-id>
+         <publisher-id>custom1</publisher-id>
          <batch-size>1000</batch-size>
          <queue-capacity>100000</queue-capacity>
          <batch-max-delay-millis>1000</batch-max-delay-millis>
@@ -205,7 +226,44 @@ IMPORTANT:
                <properties>
                   <!-- tag is used as log prefix and is a part of JMX metric name -->
                   <property name="tag">WanDiscovery-mk</property>
-                  <property name="target-endpoints">localhost:5801,localhost:5802,localhost:5802,localhost:5803,localhost:5804,localhost:5805,localhost:5806,localhost:5807,localhost:5808,localhost:5809,localhost:5810</property>
+                  <property name="target-endpoints">localhost:6001,localhost:6002,localhost:6002,localhost:6003,localhost:6004</property>
+                  <property name="probe-type">socket</property>
+                  <!-- If service-enabled=true, then the probing is done in the dedicated thread.
+                            else if service-enabled=false then the probing is done in the Hazelcast
+                            discovery thread.  Default is false -->
+                  <property name="service-enabled">true</property>
+                  <!-- service-delay-in-msec applies only if service-enabled=true.
+                            If multiple strategies are listed then the first one configured
+                            overrides others. -->
+                  <property name="service-delay-in-msec">30000</property>
+                  <!-- connection-timout-in-msec applies only if service-enabled=false -->
+                  <property name="connection-timeout-in-msec">200</property>
+                  <!-- read-timeout-in-msec only if service-enabled=false -->
+                  <property name="read-timeout-in-msec">200</property>
+               </properties>
+            </discovery-strategy>
+         </discovery-strategies>
+      </batch-publisher>
+      <batch-publisher>
+         <cluster-name>wan1</cluster-name>
+         <publisher-id>custom2</publisher-id>
+         <batch-size>1000</batch-size>
+         <queue-capacity>100000</queue-capacity>
+         <batch-max-delay-millis>1000</batch-max-delay-millis>
+         <max-concurrent-invocations>12</max-concurrent-invocations>
+         <queue-full-behavior>DISCARD_AFTER_MUTATION</queue-full-behavior>
+         <acknowledge-type>ACK_ON_RECEIPT</acknowledge-type>
+         <response-timeout-millis>60000</response-timeout-millis>
+         <sync>
+            <consistency-check-strategy>MERKLE_TREES</consistency-check-strategy>
+         </sync>
+         <discovery-strategies>
+            <discovery-strategy enabled="true"
+               class="org.hazelcast.addon.spi.discovery.IpDiscoveryStrategy">
+               <properties>
+                  <!-- tag is used as log prefix and is a part of JMX metric name -->
+                  <property name="tag">WanDiscovery-nmap</property>
+                  <property name="target-endpoints">localhost:6001,localhost:6002,localhost:6002,localhost:6003,localhost:6004,localhost:6005,localhost:6006,localhost:6007,localhost:6008,localhost:6009,localhost:6010</property>
                   <property name="probe-type">socket</property>
                   <!-- If service-enabled=true, then the probing is done in the dedicated thread.
                             else if service-enabled=false then the probing is done in the Hazelcast
@@ -224,6 +282,7 @@ IMPORTANT:
          </discovery-strategies>
       </batch-publisher>
    </wan-replication>
+
 
    <executor-service name="hz:query">
       <pool-size>16</pool-size>

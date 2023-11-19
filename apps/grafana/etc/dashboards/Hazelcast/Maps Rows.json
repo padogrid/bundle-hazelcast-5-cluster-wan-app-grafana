@@ -4,7 +4,10 @@
       "list": [
         {
           "builtIn": 1,
-          "datasource": "${DATASOURCE}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
@@ -13,22 +16,10 @@
         }
       ]
     },
-    "editable": true,
+    "editable": false,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
     "links": [
-      {
-        "asDropdown": false,
-        "icon": "dashboard",
-        "includeVars": false,
-        "keepTime": true,
-        "tags": [],
-        "targetBlank": false,
-        "title": "Main",
-        "tooltip": "",
-        "type": "link",
-        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-Cluster=$Cluster&${__url_time_range}"
-      },
       {
         "asDropdown": false,
         "icon": "dashboard",
@@ -40,6 +31,30 @@
         "tooltip": "",
         "type": "link",
         "url": "/d/f85a965f-c2ef-425a-98e0-ae4c4cdc695f/maps-rows-charts&${__url_time_range}"
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "System",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c7d2bda7-2511-40fb-aaa1-c7ca8563b528/system-resources?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/a310264b-af07-4113-a2ca-e40d86499d3a/00main?var-DataSource=$DataSource&var-Cluster=$Cluster&${__url_time_range}"
       },
       {
         "asDropdown": true,
@@ -57,21 +72,77 @@
       },
       {
         "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "Dual Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/c285e20e-3b2a-4108-bc28-69238459027a/00dual-main?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Cluster2=$Cluster2&${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
         "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "dual hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "Dual Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [],
+        "targetBlank": false,
+        "title": "All Main",
+        "tooltip": "",
+        "type": "link",
+        "url": "/d/d3a660bb-5588-491e-849b-6e40b6c0de0e/00main-all?${__url_time_range}"
+      },
+      {
+        "asDropdown": true,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": true,
+        "tags": [
+          "all hazelcast"
+        ],
+        "targetBlank": false,
+        "title": "All Hazelcast",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      },
+      {
+        "asDropdown": false,
+        "icon": "dashboard",
         "includeVars": false,
         "keepTime": false,
         "tags": [],
-        "targetBlank": true,
-        "title": "Created by PadoGrid",
-        "tooltip": "Go to PadoGrid",
+        "targetBlank": false,
+        "title": "PadoGrid",
+        "tooltip": "About PadoGrid",
         "type": "link",
-        "url": "http://github.com/padogrid"
+        "url": "/d/fdf91a72-5304-4ac4-bb42-9e30f0f0ec11/padogrid${__url_time_range}"
       }
     ],
     "liveNow": false,
     "panels": [
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of map entries owned by the member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -85,7 +156,12 @@
               "filterable": true,
               "inspect": false
             },
-            "links": [],
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -121,7 +197,7 @@
                   "value": [
                     {
                       "title": "Map Link",
-                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
                     }
                   ]
                 },
@@ -131,6 +207,23 @@
                     "fixedColor": "blue",
                     "mode": "fixed"
                   }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
                 }
               ]
             }
@@ -143,6 +236,7 @@
           "y": 0
         },
         "id": 5,
+        "links": [],
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -156,10 +250,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
@@ -232,7 +329,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of backup entries held by the member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -246,6 +347,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -281,7 +388,7 @@
                   "value": [
                     {
                       "title": "Map Link",
-                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
                     }
                   ]
                 },
@@ -291,6 +398,23 @@
                     "fixedColor": "blue",
                     "mode": "fixed"
                   }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
                 }
               ]
             }
@@ -316,10 +440,13 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
             "expr": "com_hazelcast_Metrics_backupEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
@@ -392,7 +519,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Memory cost of owned map entries on this member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -406,6 +537,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -441,7 +578,7 @@
                   "value": [
                     {
                       "title": "Map Link",
-                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
                     }
                   ]
                 },
@@ -451,6 +588,23 @@
                     "fixedColor": "blue",
                     "mode": "fixed"
                   }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
                 }
               ]
             }
@@ -476,13 +630,16 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "expr": "com_hazelcast_Metrics_ownedEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
             "format": "time_series",
             "instant": true,
             "legendFormat": "__auto",
@@ -552,7 +709,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Memory cost of backup entries in this member",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -566,6 +727,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -601,7 +768,7 @@
                   "value": [
                     {
                       "title": "Map Link",
-                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
                     }
                   ]
                 },
@@ -611,6 +778,23 @@
                     "fixedColor": "blue",
                     "mode": "fixed"
                   }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
                 }
               ]
             }
@@ -636,13 +820,16 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "expr": "com_hazelcast_Metrics_backupEntryMemoryCost{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
             "format": "time_series",
             "instant": true,
             "legendFormat": "__auto",
@@ -712,7 +899,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of expirations happened on locally owned entries, backups are not included",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -726,6 +917,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -761,7 +958,7 @@
                   "value": [
                     {
                       "title": "Map Link",
-                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
                     }
                   ]
                 },
@@ -773,6 +970,23 @@
                   }
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -782,7 +996,8 @@
           "x": 0,
           "y": 24
         },
-        "id": 8,
+        "id": 16,
+        "links": [],
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -796,13 +1011,207 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "expr": "com_hazelcast_Metrics_expirationCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Maps: Expirations",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "regex",
+                    "options": {
+                      "value": "__.*"
+                    }
+                  },
+                  "fieldName": "Map"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of local events received on the map",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 24
+        },
+        "id": 14,
+        "links": [],
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_numberOfEvents{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
             "format": "time_series",
             "instant": true,
             "legendFormat": "__auto",
@@ -872,7 +1281,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of reads of the locally owned entries",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -886,6 +1299,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -921,7 +1340,7 @@
                   "value": [
                     {
                       "title": "Map Link",
-                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
                     }
                   ]
                 },
@@ -933,16 +1352,34 @@
                   }
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         "gridPos": {
           "h": 12,
           "w": 12,
-          "x": 12,
-          "y": 24
+          "x": 0,
+          "y": 36
         },
-        "id": 9,
+        "id": 15,
+        "links": [],
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -956,13 +1393,16 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "expr": "com_hazelcast_Metrics_hits{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
             "format": "time_series",
             "instant": true,
             "legendFormat": "__auto",
@@ -1032,7 +1472,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of evictions happened on locally owned entries, backups are not included",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1046,6 +1490,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -1081,7 +1531,7 @@
                   "value": [
                     {
                       "title": "Map Link",
-                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
                     }
                   ]
                 },
@@ -1093,16 +1543,34 @@
                   }
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         "gridPos": {
           "h": 12,
           "w": 12,
-          "x": 0,
+          "x": 12,
           "y": 36
         },
-        "id": 10,
+        "id": 17,
+        "links": [],
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -1116,13 +1584,16 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "expr": "com_hazelcast_Metrics_evictionCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
             "format": "time_series",
             "instant": true,
             "legendFormat": "__auto",
@@ -1130,7 +1601,7 @@
             "refId": "A"
           }
         ],
-        "title": "Maps: Locks",
+        "title": "Maps: Evictions",
         "transformations": [
           {
             "id": "joinByLabels",
@@ -1192,7 +1663,11 @@
         "type": "table"
       },
       {
-        "datasource": "${DATASOURCE}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of queries executed on the map (it may be imprecise for queries involving partition predicates (PartitionPredicate) on the off-heap storage)",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1206,6 +1681,12 @@
               "filterable": true,
               "inspect": false
             },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -1241,7 +1722,7 @@
                   "value": [
                     {
                       "title": "Map Link",
-                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
                     }
                   ]
                 },
@@ -1253,16 +1734,34 @@
                   }
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         "gridPos": {
           "h": 12,
           "w": 12,
-          "x": 12,
-          "y": 36
+          "x": 0,
+          "y": 48
         },
-        "id": 11,
+        "id": 22,
+        "links": [],
         "options": {
           "cellHeight": "sm",
           "footer": {
@@ -1276,13 +1775,971 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "10.1.1",
+        "pluginVersion": "10.2.0",
         "targets": [
           {
-            "datasource": "${DATASOURCE}",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
             "editorMode": "code",
             "exemplar": false,
-            "expr": "com_hazelcast_Metrics_ownedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "expr": "com_hazelcast_Metrics_queryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Maps: Query Count",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "regex",
+                    "options": {
+                      "value": "__.*"
+                    }
+                  },
+                  "fieldName": "Map"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total number of indexed local queries performed on the map",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 48
+        },
+        "id": 23,
+        "links": [],
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_indexedQueryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Maps: Indexed Query Count",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "regex",
+                    "options": {
+                      "value": "__.*"
+                    }
+                  },
+                  "fieldName": "Map"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total number of other operations performed on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 60
+        },
+        "id": 25,
+        "links": [],
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_numberOfOtherOperations{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Maps: Other Operations",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "regex",
+                    "options": {
+                      "value": "__.*"
+                    }
+                  },
+                  "fieldName": "Map"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Total heap cost of the Merkle trees used",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "bytes"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 60
+        },
+        "id": 20,
+        "links": [],
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_merkleTreesCost{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Maps: Merkle Trees Used Heap (WAN)",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "regex",
+                    "options": {
+                      "value": "__.*"
+                    }
+                  },
+                  "fieldName": "Map"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of locked entries that the member owns",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 72
+        },
+        "id": 18,
+        "links": [],
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_lockedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Maps: Locked Entries",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "regex",
+                    "options": {
+                      "value": "__.*"
+                    }
+                  },
+                  "fieldName": "Map"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of updated but not persisted yet entries, dirty entries, that the member owns",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 72
+        },
+        "id": 19,
+        "links": [],
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_dirtyEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
             "format": "time_series",
             "instant": true,
             "legendFormat": "__auto",
@@ -1350,11 +2807,582 @@
           }
         ],
         "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of forced evictions happened on locally owned entries, backups are not included",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 84
+        },
+        "id": 21,
+        "links": [],
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_forceEvictedEntryCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Maps: Force Evicted Entries",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "regex",
+                    "options": {
+                      "value": "__.*"
+                    }
+                  },
+                  "fieldName": "Map"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Memory cost of owned map entries on this member",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "bytes"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 84
+        },
+        "id": 26,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_memoryCost{$ClusterFilterLabel=\"$Cluster\", prefix=\"map.index\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Indexes: Memory Cost",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "regex",
+                    "options": {
+                      "value": "__.*"
+                    }
+                  },
+                  "fieldName": "Map"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DataSource}"
+        },
+        "description": "$Cluster: Number of off loaded map store operations waiting to be processed",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "color-text"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "links": [
+              {
+                "title": "Member Link",
+                "url": "/d/f1746acb-12a3-41f4-9d8c-6834afcdda98/member?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Member=${__field.name}&var-MapType=map&${__url_time_range}"
+              }
+            ],
+            "mappings": [
+              {
+                "options": {
+                  "pattern": "^.*(=)(\\w.*).*\"$",
+                  "result": {
+                    "index": 0,
+                    "text": "$2"
+                  }
+                },
+                "type": "regex"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "locale"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Map"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__value.text}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                },
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "Map Link",
+                      "url": "/d/cbb05a48-aa4b-4f7f-b2e7-12ed29394b3a/map?var-DataSource=$DataSource&var-Cluster=$Cluster&var-Map=${__data.fields.Map}&var-MapType=map&${__url_time_range}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 96
+        },
+        "id": 24,
+        "links": [],
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DataSource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "com_hazelcast_Metrics_waitingToBeProcessedCount{$ClusterFilterLabel=\"$Cluster\",prefix=\"map.store.offloaded.operations\"}",
+            "format": "time_series",
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Map Store: Waiting To Be Processed Count",
+        "transformations": [
+          {
+            "id": "joinByLabels",
+            "options": {
+              "join": [
+                "tag0"
+              ],
+              "value": "instance"
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "tag0",
+              "renamePattern": "Map"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Map"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "reduceRow",
+              "reduce": {
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "regex",
+                    "options": {
+                      "value": "__.*"
+                    }
+                  },
+                  "fieldName": "Map"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          }
+        ],
+        "type": "table"
       }
     ],
     "refresh": "5s",
     "schemaVersion": 38,
-    "style": "dark",
     "tags": [
       "hazelcast",
       "data structure",
@@ -1373,45 +3401,102 @@
           "datasource": "${DATASOURCE}"
         },
         {
-          "current": {
-            "selected": true,
-            "text": "myhz1",
-            "value": "myhz1"
-          },
           "hide": 0,
           "includeAll": false,
+          "label": "Source",
           "multi": false,
-          "name": "Cluster",
-          "options": [
-            {
-              "selected": true,
-              "text": "myhz1",
-              "value": "myhz1"
-            },
-            {
-              "selected": false,
-              "text": "myhz2",
-              "value": "myhz2"
-            },
-            {
-              "selected": false,
-              "text": "wan1",
-              "value": "wan1"
-            },
-            {
-              "selected": false,
-              "text": "wan2",
-              "value": "wan2"
-            }
-          ],
-          "query": "myhz1,myhz2,wan1,wan2",
+          "name": "DataSource",
+          "options": [],
+          "query": "prometheus",
           "queryValue": "",
+          "refresh": 1,
+          "regex": "",
           "skipUrlSync": false,
-          "type": "custom",
-          "datasource": "${DATASOURCE}"
+          "type": "datasource"
         },
         {
-          "datasource": "${DATASOURCE}",
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
+          "definition": "label_values(job)",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Cluster",
+          "multi": false,
+          "name": "Cluster",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "hide": 2,
+          "includeAll": false,
+          "label": "Source2",
+          "multi": false,
+          "name": "DataSource2",
+          "options": [],
+          "query": "prometheus",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              ""
+            ],
+            "value": [
+              ""
+            ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource2}"
+          },
+          "definition": "label_values(job)",
+          "hide": 2,
+          "includeAll": false,
+          "label": "Cluster2",
+          "multi": false,
+          "name": "Cluster2",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(job)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DataSource}"
+          },
           "filters": [],
           "hide": 0,
           "name": "Filters",

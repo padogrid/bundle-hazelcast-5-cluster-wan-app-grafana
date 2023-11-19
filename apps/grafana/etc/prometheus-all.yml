@@ -1,0 +1,28 @@
+global:
+  scrape_interval:     5s
+  external_labels:
+    monitor: 'hazelcast'
+
+scrape_configs:
+  - job_name: 'myhz1'
+    scrape_interval: 2s
+    static_configs:
+      - targets: [localhost:8291, localhost:8292, localhost:8293, localhost:8294, localhost:8295, localhost:8296, localhost:8297, localhost:8298, localhost:8299, localhost:8300]
+  - job_name: 'myhz2'
+    scrape_interval: 2s
+    static_configs:
+      - targets: [localhost:8391, localhost:8392, localhost:8393, localhost:8394, localhost:8395, localhost:8396, localhost:8397, localhost:8398, localhost:8399, localhost:8400]
+  - job_name: 'myhz3'
+    scrape_interval: 2s
+    static_configs:
+      - targets: [localhost:8491, localhost:8492, localhost:8493, localhost:8494, localhost:8495, localhost:8496, localhost:8497, localhost:8498, localhost:8499, localhost:8500]
+
+scrape_configs:
+  - job_name: 'wan1'
+    scrape_interval: 2s
+    static_configs:
+      - targets: [localhost:8591, localhost:8592, localhost:8593, localhost:8594, localhost:8595, localhost:8596, localhost:8597, localhost:8598, localhost:8599, localhost:8600]
+  - job_name: 'wan2'
+    scrape_interval: 2s
+    static_configs:
+      - targets: [localhost:8691, localhost:8692, localhost:8693, localhost:8694, localhost:8695, localhost:8696, localhost:8697, localhost:8698, localhost:8699, localhost:8700]

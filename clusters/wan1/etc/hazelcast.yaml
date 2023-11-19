@@ -89,10 +89,30 @@ hazelcast:
     ssl:
       enabled: false
 
+  native-memory:
+    enabled: true
+    size:
+      unit: MEGABYTES
+      value: 512
+
   map:
+    nmap*:
+      in-memory-format: NATIVE
+      eviction:
+        eviction-policy: LRU
+        max-size-policy: FREE_NATIVE_MEMORY_PERCENTAGE
+        size: 20
+      per-entry-stats-enabled: true
+      merkle-tree:
+        enabled: true
+        depth: 10
+      wan-replication-ref:
+        to-wan2-custom:
+          merge-policy-class-name: LatestUpdateMergePolicy
     map*:
+      max-idle-seconds: 120
       near-cache:
-        max-idle-seconds: 100
+        max-idle-seconds: 120
       per-entry-stats-enabled: true
       wan-replication-ref:  
         to-wan2-maps:
@@ -120,7 +140,7 @@ hazelcast:
           attributes:
             - "country"
       near-cache:
-        max-idle-seconds: 100
+        max-idle-seconds: 120
     nw/orders:
       indexes:
         - name: freight
@@ -132,13 +152,14 @@ hazelcast:
           attributes:
             - "shipVia"
       near-cache:
-        max-idle-seconds: 100
+        max-idle-seconds: 120
     mk*:
       eviction:
         eviction-policy: LRU
         max-size-policy: FREE_HEAP_PERCENTAGE
         size: 20
-      max-idle-seconds: 3600
+      # 5 min idle time
+      max-idle-seconds: 300
       merkle-tree:
         enabled: true
         depth: 10
@@ -152,15 +173,15 @@ hazelcast:
       batch-publisher:
         maps:
           cluster-name: wan2
-          target-endpoints: localhost:5901,localhost:5902,localhost:5903
+          target-endpoints: localhost:6101,localhost:6102,localhost:6103
     to-wan2-tx:
       batch-publisher:
         transactions:
           cluster-name: wan2
-          target-endpoints: localhost:5901,localhost:5902,localhost:5903
+          target-endpoints: localhost:6101,localhost:6102,localhost:6103
     to-wan2-custom:
       batch-publisher:
-        custom:
+        custom1:
           cluster-name: wan2
           batch-size: 1000
           queue-capacity: 100000
@@ -177,8 +198,40 @@ hazelcast:
                 enabled: true
                 properties:
                   # tag is used as log prefix and is a part of JMX metric name
-                  tag: WanDiscovery-mkp
-                  target-endpoints: localhost:5901,localhost:5902,localhost:5902,localhost:5903,localhost:5904,localhost:5905,localhost:5906,localhost:5907,localhost:5908,localhost:5909,localhost:5910
+                  tag: WanDiscovery-mk
+                  target-endpoints: localhost:6101,localhost:6102,localhost:6102,localhost:6103,localhost:6104,localhost:6105,localhost:6106,localhost:6107,localhost:6108,localhost:6109,localhost:6110
+                  probe-type: ssl
+                  # If service-enabled=true, then the probing is done in the dedicated thread.
+                  # else if service-enabled=false then the probing is done in the Hazelcast
+                  # discovery thread.  Default is false
+                  service-enabled: true
+                  # service-delay-in-msec applies only if service-enabled=true.
+                  # If multiple strategies are listed then the first one configured
+                  # overrides others.
+                  service-delay-in-msec: 30000
+                  # connection-timout-in-msec applies only if service-enabled=false
+                  connection-timeout-in-msec: 200
+                  # read-timeout-in-msec only if service-enabled=false
+                  read-timeout-in-msec: 200
+        custom2:
+          cluster-name: wan2
+          batch-size: 1000
+          queue-capacity: 100000
+          batch-max-delay-millis: 1000
+          max-concurrent-invocations: 12
+          queue-full-behavior: DISCARD_AFTER_MUTATION
+          acknowledge-type: ACK_ON_RECEIPT
+          response-timeout-millis: 60000
+          sync:
+            consistency-check-strategy: MERKLE_TREES
+          discovery-strategies:
+            discovery-strategies:
+              - class: org.hazelcast.addon.spi.discovery.IpDiscoveryStrategy
+                enabled: true
+                properties:
+                  # tag is used as log prefix and is a part of JMX metric name
+                  tag: WanDiscovery-nmap
+                  target-endpoints: localhost:6101,localhost:6102,localhost:6102,localhost:6103,localhost:6104
                   probe-type: ssl
                   # If service-enabled=true, then the probing is done in the dedicated thread.
                   # else if service-enabled=false then the probing is done in the Hazelcast
