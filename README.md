@@ -104,6 +104,13 @@ start_group -group myhz
 start_group -group wan
 ```
 
+To check group cluster status:
+
+```bash
+show_group -group myhz
+show_group -group wan
+```
+
 ### 2. Start Prometheus and Grafana
 
 Start Prometheus for monitoring the `myhz1`, `myhz2`, and `myhz3` clusters. Also, start Grafana.

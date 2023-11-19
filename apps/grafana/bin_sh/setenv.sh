@@ -113,4 +113,3 @@ ALL_FOLDERS="HazelcastAll"
 # Regex for filtering Prometheus data source names. Empty string includes all.
 #
 #DATASOURCE_REGEX=""
-#
