@@ -44,6 +44,13 @@ if [ "$ERROR_OCCURED" == "false" ]; then
       fi
    done
 
+   # Create grafana app and update it with the repo contents
+   cd_app
+   mv grafana grafana_org
+   create_app -product hazelcast -app grafana
+   cp -rf grafana_org/ grafana/
+   rm -rf grafana_org
+
    # Build perf_test app - downloads required binaries
    cd_app perf_test/bin_sh
    ./build_app
