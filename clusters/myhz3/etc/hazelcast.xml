@@ -149,7 +149,7 @@ IMPORTANT:
 
 	<cp-subsystem>
 		<base-dir>${hazelcast-addon.cp.base-dir}</base-dir>
-		<cp-member-count>5</cp-member-count>
+		<cp-member-count>3</cp-member-count>
 		<group-size>3</group-size>
 		<persistence-enabled>true</persistence-enabled>
 		<semaphores>

@@ -275,7 +275,7 @@ hazelcast:
 
   cp-subsystem:
     base-dir: ${hazelcast-addon.cp.base-dir}
-    cp-member-count: 5
+    cp-member-count: 3
     group-size: 3
     persistence-enabled: true
     semaphores:
