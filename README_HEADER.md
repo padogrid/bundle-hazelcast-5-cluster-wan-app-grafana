@@ -1,1 +1,1 @@
-This bundle demonstrates Grafana capabilities of monitoring four (4) Hazelcast clusters. It includes two (2) independent clusters and two (2) bi-directional WAN clusters along with a workflow simulator.
+This bundle demonstrates Grafana capabilities of monitoring five (5) Hazelcast clusters. It includes three (3) independent clusters and two (2) bi-directional WAN clusters along with a workflow simulator.
