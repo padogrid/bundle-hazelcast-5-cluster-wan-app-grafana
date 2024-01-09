@@ -155,7 +155,7 @@ From the browser, add a Prometheus datasource for `myhz` clusters if it does not
   
   Prometheus server URL: <http://localhost:9091>
 
-	Alternatively, if you are using PadoGrid v0.9.33+, then you can add a new Prometheus data source as follows.
+	Alternatively, if you are using PadoGrid v0.9.33+, then you can add a new Prometheus datasource as follows.
 
 	```bash
 	cd_app grafana/bin_sh
