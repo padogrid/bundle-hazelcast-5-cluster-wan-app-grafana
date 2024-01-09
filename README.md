@@ -96,19 +96,21 @@ There are two (2) groups of clusters as follows.
 
 The `wan1` and `wan2` clusters are configured with bi-directional WAN replication. These clusters require Hazelcast Enterprise.
 
+✏️  Always start the `wan` group first before the `myhz` group to allocate the native memory for its clusters. Both clusters, `wan1` and `wan2` are configured with 512 MB of native memory per member.
+
 ```bash
+# Start group 'wan' - these clusters require Hazelcast Enterprise
+start_group -group wan
+
 # Start group 'myhz'
 start_group -group myhz
-
-# Start group 'wan' - these clusters required Hazelcast Enterprise
-start_group -group wan
 ```
 
 To check group cluster status:
 
 ```bash
-show_group -group myhz
 show_group -group wan
+show_group -group myhz
 ```
 
 ### 2. Start Prometheus and Grafana
@@ -153,6 +155,13 @@ From the browser, add a Prometheus datasource for `myhz` clusters if it does not
   
   Prometheus server URL: <http://localhost:9091>
 
+	Alternatively, if you are using PadoGrid v0.9.33+, then you can add a new Prometheus data source as follows.
+
+	```bash
+	cd_app grafana/bin_sh
+	./create_datasource_prometheus -datasource Prometheus-WAN -url http://localhost:9091
+	```
+
 Open the **00Main** dashboard.
 
 - Select *Dashboards* from the left pull-out menu.
@@ -168,6 +177,12 @@ The included `etc/group-workflow.properties` file simulates workflows by executi
 ```bash
 cd_app perf_test/bin_sh
 
+# wan1
+./test_group -run -prop ../etc/group-workflow.properties -cluster wan1
+
+# wan2
+./test_group -run -prop ../etc/group-workflow.properties -cluster wan2
+
 # myhz1
 ./test_group -run -prop ../etc/group-workflow.properties -cluster myhz1
 
@@ -176,12 +191,6 @@ cd_app perf_test/bin_sh
 
 # myhz3
 ./test_group -run -prop ../etc/group-workflow.properties -cluster myhz3
-
-# wan1
-./test_group -run -prop ../etc/group-workflow.properties -cluster wan1
-
-# wan2
-./test_group -run -prop ../etc/group-workflow.properties -cluster wan2
 ```
 
 To test native memory, use `group-nmap.properties` as follows.

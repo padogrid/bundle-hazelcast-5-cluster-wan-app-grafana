@@ -33,24 +33,12 @@ if [ "$ERROR_OCCURED" == "false" ]; then
    switch_workspace $WORKSPACE
 
    #
-   # Add 3 members to myhz* clusters
+   # Add 3 members to each cluster
    #
-   clusters="myhz1 myhz2 myhz3"
+   clusters="myhz1 myhz2 myhz3 wan1, wan2"
    for i in $clusters; do
       cluster_count=$(show_cluster -no-color -cluster $i | grep "Members Running" | awk '{print $3}' | sed 's/^.*\///')
       count=$((3-$cluster_count))
-      if [ $count -gt 0 ]; then
-         add_member -cluster $i -count $count
-      fi
-   done
-
-   #
-   # Add 5 members to wan* clusters
-   #
-   clusters="wan1 wan2"
-   for i in $clusters; do
-      cluster_count=$(show_cluster -no-color -cluster $i | grep "Members Running" | awk '{print $3}' | sed 's/^.*\///')
-      count=$((5-$cluster_count))
       if [ $count -gt 0 ]; then
          add_member -cluster $i -count $count
       fi
