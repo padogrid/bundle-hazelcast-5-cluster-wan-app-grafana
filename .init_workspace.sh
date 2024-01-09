@@ -48,7 +48,7 @@ if [ "$ERROR_OCCURED" == "false" ]; then
    cd_app
    mv grafana grafana_org
    create_app -product hazelcast -app grafana
-   cp -rf grafana_org/ grafana/
+   cp -rf grafana_org/* grafana/
    rm -rf grafana_org
 
    # Build perf_test app - downloads required binaries
