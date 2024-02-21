@@ -64,8 +64,8 @@ Install Prometheus and Grafana. Make sure you have installed PadoGrid 0.9.31 or 
 ```bash
 install_padogrid -product prometheus
 install_padogrid -product grafana-enterprise
-update_products -product prometheus
-update_products -product grafana
+update_padogrid -product prometheus
+update_padogrid -product grafana
 ```
 
 The JSON processor, `jq`, is required if you want to create or update dashboard templates. You can download it from [here](https://jqlang.github.io/jq/download/).
