@@ -37,7 +37,6 @@ if [ "$ERROR_OCCURED" == "false" ]; then
    #
    clusters="myhz1 myhz2 myhz3 wan1 wan2"
    for i in $clusters; do
-      echo debug: cluster=$i
       cluster_count=$(show_cluster -no-color -cluster $i | grep "Members Running" | awk '{print $3}' | sed 's/^.*\///')
       count=$((3-$cluster_count))
       if [ $count -gt 0 ]; then
