@@ -146,21 +146,4 @@ IMPORTANT:
          </portable-factory>
 		</portable-factories>
 	</serialization>
-
-	<cp-subsystem>
-		<base-dir>${hazelcast-addon.cp.base-dir}</base-dir>
-		<cp-member-count>3</cp-member-count>
-		<group-size>3</group-size>
-		<persistence-enabled>true</persistence-enabled>
-		<semaphores>
-			<semaphore>
-				<name>semaphore1</name>
-				<initial-permits>10</initial-permits>
-			</semaphore>
-			<semaphore>
-				<name>semaphore2</name>
-				<initial-permits>20</initial-permits>
-			</semaphore>
-		</semaphores>
-	</cp-subsystem>
 </hazelcast>

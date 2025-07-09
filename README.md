@@ -58,6 +58,8 @@ groups
 
 ## Installation Steps
 
+### Prometheus/Grafana
+
 Install Prometheus and Grafana. Make sure you have installed PadoGrid 0.9.31 or a later version.
 
 ```bash
@@ -66,6 +68,8 @@ install_padogrid -product grafana-enterprise
 update_padogrid -product prometheus
 update_padogrid -product grafana
 ```
+
+### `jq`
 
 The JSON processor, `jq`, is required if you want to create or update dashboard templates. You can download it from [here](https://jqlang.github.io/jq/download/).
 
@@ -279,8 +283,6 @@ Deleting a Hazelcast cluster requires the following steps.
 create_cluster -product hazelcast -cluster myhz4 -port 6201
 
 # By default, the new cluster has two (2) members. The following adds one additional member.
-
-```bash
 add_member
 ```
 

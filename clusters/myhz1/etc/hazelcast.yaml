@@ -128,14 +128,3 @@ hazelcast:
         class-name: org.hazelcast.addon.hql.impl.PortableFactoryImpl
       - factory-id: 1
         class-name: org.hazelcast.demo.nw.data.PortableFactoryImpl
-
-  cp-subsystem:
-    base-dir: ${hazelcast-addon.cp.base-dir}
-    cp-member-count: 3
-    group-size: 3
-    persistence-enabled: true
-    semaphores:
-      semaphore1:
-        initial-permits: 10
-      semaphore2:
-        initial-permits: 20
