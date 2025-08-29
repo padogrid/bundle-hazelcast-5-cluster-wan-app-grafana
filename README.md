@@ -363,7 +363,8 @@ stop_workspace -all
 
 ## References
 
-1. *Hazelcast Grafana App*, Padogrid, <https://github.com/padogrid/padogrid/wiki/Hazelcast-Grafana-App>
+1.*PadoGrid Hazelcast Dashboards in Docker/Kubernetes*, PadoGrid Hazelcast Dashboards installation via container.
+2. *Hazelcast Grafana App*, Padogrid, <https://github.com/padogrid/padogrid/wiki/Hazelcast-Grafana-App>
 1. *Hazelcast Kubernetes Helm Charts*, PadoGrid Bundles, <https://github.com/padogrid/bundle-hazelcast-3n4n5-k8s-kubectl_helm>
 1. *Grafana*, GrafanaLabs, <https://grafana.com/>
 1. *Prometheus*, Prometheus, <https://prometheus.io/>
