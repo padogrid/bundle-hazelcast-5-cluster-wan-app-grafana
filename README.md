@@ -11,8 +11,10 @@ This bundle demonstrates Grafana capabilities of monitoring five (5) Hazelcast c
 
 ## Installing Bundle
 
+❗️ Before installing this bundle, create and switch to a Hazelcast cluster. This is required due to the auto-intialization step performed by this bundle.
+
 ```bash
-install_bundle -init -download -workspace bundle-hazelcast-5-cluster-wan-app-grafana
+install_bundle -init -checkout -workspace bundle-hazelcast-5-cluster-wan-app-grafana
 ```
 
 ## Use Case
@@ -26,8 +28,8 @@ Hazelcast provides a wealth of monitoring metrics that can be scraped by Prometh
 - Hazelcast
   - Full Demo: Enterprise 5.x
   - Partial Demo: OSS 5.x (WAN not demonstrable)
-- Grafana 10.x
-- Prometheus 2.x
+- Grafana 12.x, 11.x, 10.x
+- Prometheus 3.x, 2.x
 - [`jq`](https://jqlang.github.io/jq/download/)
 
 ## Required Hardware
